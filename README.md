@@ -176,7 +176,7 @@ Experience a modern, glassmorphic landing page designed for seamless navigation 
 
 | Home Page | Services & Features |
 | :---: | :---: |
-| ![Landing Page](./frontend/assets/landing.jpg) | ![Services](./frontend/assets/features.png) |
+| ![Landing Page](.output/landing.jpg) | ![Services](./frontend/assets/features.png) |
 
 ---
 
