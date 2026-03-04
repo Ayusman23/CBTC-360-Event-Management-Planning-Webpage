@@ -167,6 +167,8 @@ Open your favorite web browser and navigate to:
 
 ---
 
+![Uploading about 2.png…]()
+
 <div align="center">
   <p><b>EventPlanner 360</b> — Planning made perfect.</p>
 </div>
