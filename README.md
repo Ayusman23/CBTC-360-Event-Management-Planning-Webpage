@@ -167,7 +167,47 @@ Open your favorite web browser and navigate to:
 
 ---
 
-![Uploading about 2.png…]()
+---
+
+## 🖼️ User Interface Gallery
+
+### 1. Landing & Discovery
+Experience a modern, glassmorphic landing page designed for seamless navigation and professional appeal.
+
+| Home Page | Services & Features |
+| :---: | :---: |
+| ![Landing Page](./frontend/assets/landing.jpg) | ![Services](./frontend/assets/features.png) |
+
+---
+
+### 2. Secure Authentication
+Vibrant, responsive Login and Signup interfaces featuring JWT-based protection and real-time validation.
+
+| Welcome Back | Create Account |
+| :---: | :---: |
+| ![Login](./frontend/assets/login.png) | ![Signup](./frontend/assets/signup.jpg) |
+
+---
+
+### 3. Personal Dashboard & Analytics
+A centralized hub for real-time metrics, upcoming event tracking, and automated notifications.
+
+![User Dashboard](./frontend/assets/user%20dashboard.png)
+
+---
+
+### 4. Core Management Features
+Effortlessly organize events and manage your data with our intuitive tools.
+
+#### **Smart Event Creation**
+*Detailed forms for scheduling, categorization, and color-coding.*
+![Create Event](./frontend/assets/event%20planner.png)
+
+#### **Advanced Excel Export**
+*One-click data portability for Events, Guest Lists, and RSVP responses.*
+![Export to Excel](./frontend/assets/plan%20export%20to%20xlsx.png)
+
+---
 
 <div align="center">
   <p><b>EventPlanner 360</b> — Planning made perfect.</p>
