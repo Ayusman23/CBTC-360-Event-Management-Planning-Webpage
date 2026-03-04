@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Scheduling - EventPlanner360</title>
+    <style>
+  body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #0c0000;
+            background-image: url('11.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header h1 {
+    color: #06fdf9;
+    margin-bottom: 10px;
+    font-size: 60px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header p {
+    color: #eff3f3;
+    font-size: 20px;
+}
+
+
+@keyframes revealText {
+    0% {
+        opacity: 0; /* Start with full transparency */
+        transform: translateY(20px); /* Optional: Start slightly below its position */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Optional: Return to original position */
+    }
+}
+#customTemplates {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size:20px;
+
+}
+
+#customTemplates h2 {
+    font-size: 24px;
+    color: #f9fcfc;
+    margin-bottom: 10px;
+}
+
+#customTemplates p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #f8f4f4;
+}
+
+#customTemplates ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#customTemplates ul li {
+    margin-bottom: 10px;
+}
+
+#customTemplates ul li a {
+    display: block;
+    padding: 10px 15px;
+    background-color: #102480;
+    color: #fcfcfc;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+#customTemplates ul li a:hover {
+    background-color: #0f0000;
+}
+
+.custom-card {
+    display: none;
+    padding: 20px;
+    background-color: #02a3f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.custom-card.visible {
+    display: block;
+}
+/* Additional CSS for custom card form */
+.custom-card form {
+    margin-top: 10px;
+}
+
+.custom-card form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #0a0a0a;
+}
+
+.custom-card form input,
+.custom-card form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #f2ecec;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.custom-card form button[type="submit"] {
+    background-color: #000803;
+    color: #f5f2f2;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-card form button[type="submit"]:hover {
+    background-color: #0577f9;
+}
+
+/* Ensure responsiveness */
+@media screen and (max-width: 600px) {
+    .custom-card form {
+        margin-top: 10px;
+    }
+}
+
+
+
+.back-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 20px;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+.back-button:focus {
+    outline: none;
+}
+
+.back-button:active {
+    transform: translateY(1px);
+}
+
+@media screen and (max-width: 600px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    #customTemplates {
+        padding: 20px;
+    }
+}
+
+        /* CSS for Back Button */
+        .back-button {
+            background-color: #007bff; /* Primary blue background */
+            color: #ffffff; /* White text */
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .back-button:focus {
+            outline: none;
+        }
+
+        .back-button:active {
+            transform: translateY(1px); /* Add a slight downward movement on click */
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 600px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            #customTemplates button {
+                background-color: #0732ce;
+                color: #ffffff;
+                padding: 5px;
+            }
+        }
+
+        .custom-card {
+    display: none;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+.custom-card.visible {
+    display: block;
+}
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Customizable Event Templates</h1>
+        <p>An all-in-one event management platform enabling users to schedule events efficiently.</p>
+    </header>
+
+    <section id="customTemplates">
+        <h2>Explore Our Templates</h2>
+        <p>Choose from our selection of customizable event templates:</p>
+        <ul>
+            <li>
+                <a href="#">Corporate Conference Template</a>
+                <button class="custom-card-button">Create Custom event template</button>
+                <div class="custom-card hidden">
+                    <form class="custom-card-form">
+                        <label for="eventDate">Event Date:</label>
+                        <input type="date" id="eventDate" name="eventDate" required>
+        
+                        <label for="eventDescription">Event Description:</label>
+                        <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea>
+        
+                        <button type="submit">Create Template</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+
+
+        <ul>
+            <li>
+                <a href="#">Dream Wedding Template</a>
+                <button class="custom-card-button">Create Custom event template</button>
+                <div class="custom-card hidden">
+                    <form class="custom-card-form">
+                        <label for="eventDate">Event Date:</label>
+                        <input type="date" id="eventDate" name="eventDate" required>
+        
+                        <label for="eventDescription">Event Description:</label>
+                        <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea>
+        
+                        <button type="submit">Create Template</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+
+        <ul>
+            <li>
+                <a href="#">Memorable Birthday Party Template</a>
+                <button class="custom-card-button">Create Custom event template</button>
+                <div class="custom-card hidden">
+                    <form class="custom-card-form">
+                        <label for="eventDate">Event Date:</label>
+                        <input type="date" id="eventDate" name="eventDate" required>
+        
+                        <label for="eventDescription">Event Description:</label>
+                        <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea>
+        
+                        <button type="submit">Create Template</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="#">Product Launch Template</a>
+                <button class="custom-card-button">Create Custom Card</button>
+                <div class="custom-card hidden">
+                    <form class="custom-card-form">
+                        <label for="eventDate">Event Date:</label>
+                        <input type="date" id="eventDate" name="eventDate" required>
+        
+                        <label for="eventDescription">Event Description:</label>
+                        <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea>
+        
+                        <button type="submit">Create Template</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+        
+        <ul>
+            <li>
+                <a href="#">Charity Event Template</a>
+                <button class="custom-card-button">Create Custom Card</button>
+                <div class="custom-card hidden">
+                    <form class="custom-card-form">
+                        <label for="eventDate">Event Date:</label>
+                        <input type="date" id="eventDate" name="eventDate" required>
+        
+                        <label for="eventDescription">Event Description:</label>
+                        <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea>
+        
+                        <button type="submit">Create Template</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+        
+        <ul>
+            <li>
+                <a href="#">Holiday Celebration Template</a>
+                <button class="custom-card-button">Create Custom Card</button>
+                <div class="custom-card hidden">
+                    <form class="custom-card-form">
+                        <label for="eventDate">Event Date:</label>
+                        <input type="date" id="eventDate" name="eventDate" required>
+        
+                        <label for="eventDescription">Event Description:</label>
+                        <textarea id="eventDescription" name="eventDescription" rows="4" required></textarea>
+        
+                        <button type="submit">Create Template</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+
+        <div id="templateDisplay"></div>
+        <button id="backButton" class="back-button">← Back to Home</button>
+    </section>
+
+    
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const customCardButtons = document.querySelectorAll('.custom-card-button');
+    const templateDisplay = document.getElementById('templateDisplay');
+    const backButton = document.getElementById('backButton');
+
+    customCardButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const customCard = this.parentElement.querySelector('.custom-card');
+            customCard.classList.toggle('visible');
+        });
+    });
+
+    backButton.addEventListener('click', function() {
+        window.location.href = 'index1.html'; // Navigate to index.html or your homepage
+    });
+
+    // Handle form submission
+    const customCardForms = document.querySelectorAll('.custom-card-form');
+
+    customCardForms.forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const eventDate = this.querySelector('#eventDate').value;
+            const eventDescription = this.querySelector('#eventDescription').value;
+            
+
+            if (eventDate && eventDescription) {
+                // Create a template display item
+                const templateItem = document.createElement('div');
+                templateItem.classList.add('template-item');
+                templateItem.innerHTML = `
+                    <strong>Event Date:</strong> ${eventDate}<br>
+                    <strong>Event Description:</strong> ${eventDescription}
+                    <hr>
+                `;
+
+                // Append to the template display section
+                templateDisplay.appendChild(templateItem);
+
+                // Show success message
+                alert('Template created successfully!');
+
+                // Hide the custom card after submission
+                this.closest('.custom-card').classList.remove('visible');
+                this.reset(); // Reset the form
+            } else {
+                // Show error message if fields are empty
+                alert('Please fill out all fields.');
+            }
+        });
+    });
+});
+
+
+    </script>
+</body>
+</html>

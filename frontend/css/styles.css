@@ -1,0 +1,198 @@
+/* Navbar styles */
+
+.navbar {
+    padding: 10px 30px;
+    background-color: #070000;
+    transition: 1s;
+}
+.navbar.scroll {
+    background: rgb(0, 149, 255);
+}
+.navbar-brand {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 24px;
+    text-transform: capitalize;
+    padding-left: 15px;
+    color: white !important;
+}
+.navbar-nav {
+    padding-left: 30px;
+}
+.nav-link {
+    color: white;
+    font-weight: bold;
+    font-style: italic;
+    margin-left: 10px;
+    transition: transform 0.6s, color 0.6s;
+    border-radius: 20px;
+    text-transform: capitalize;
+}
+.nav-link:hover {
+    transform: translateY(-5px);
+    background: rgb(2, 245, 249);
+}
+
+/* Header styles */
+.header {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+.header img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.header .img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    opacity: 0.4;
+    z-index: 1;
+}
+
+.container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: transparent;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+h2 {
+    font-size: 80px;
+    color: #fefefb;
+    font-style: italic;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+p {
+    font-size: 40px;
+    line-height: 1.6;
+    color: #f7f0f0;
+    font-style: italic;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+    color: #0c0000;
+    background-image: url('bg-3.jpg');
+    background-size: cover; /* Use 'cover' instead of '100% 100%' */
+    background-position: center; /* Center the background image */
+    background-attachment:fixed; /* Optional, but helps with scrolling */
+    filter: contrast(130%); /* Increase contrast by 30% (adjust as needed) */
+    image-rendering: crisp-edges; /* Attempt to sharpen edges */
+    /* Remove the blur filter, as it's not needed */
+    transform: translateZ(0); /* Trigger GPU rendering */
+  }
+  
+
+
+
+/* Event section styles */
+.event {
+    margin: 20px auto;
+    padding: 20px;
+    background: transparent;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+.event-content {
+    padding: 10px;
+    background: rgb(252, 249, 249);
+    cursor: pointer;
+}
+.event-content h4 {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+.event-content span {
+    font-style: italic;
+    font-size: 15px;
+}
+.event-content a {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.event img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.6s;
+}
+.event:hover img {
+    transform: scale(1.1);
+}
+.event .col-sm-5{
+    margin-bottom: 40px; !
+
+}
+
+.event-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.event-card img {
+    width: 100%;
+    height: auto;
+}
+
+.event-content {
+    padding: 15px;
+    text-align: center;
+}
+
+.event-content h4 {
+    margin-bottom: 10px;
+}
+
+.event-content p {
+    font-size: 14px;
+    color: #555;
+}
+
+.event-content .btn {
+    margin-top: 10px;
+}
+/* Footer*/
+footer{
+    /* margin: 200px auto; */
+    background: rgba(0, 6, 6, 0.8); /* Use rgba to add transparency */
+    padding: 150px;
+}
+footer h6{
+    font-weight: bold;
+    color: #f7f0f0 !important;
+    font-style: italic;
+    margin-bottom: 20px !important;
+}
+footer span{
+    font-weight: bold;
+    color: #fafaf6 !important;
+    font-style: italic;
+    font-size: 10px !important;
+}
+footer input{
+    margin: 20px auto !important;
+
+}

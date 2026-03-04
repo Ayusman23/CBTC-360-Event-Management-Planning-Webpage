@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Scheduling - EventPlanner360</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 0px;
+            color: #f0ecec;
+            background-image: url('13.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent background image from repeating */    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0; /* Initially hide the text */
+            animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+            font-size: 100px !important;
+            font-family: initial;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #e4ecec;
+            margin-bottom: 10px;
+            font-size: 60px;
+            opacity: 0; /* Initially hide the text */
+            animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+            font-size: 100px !important;
+            font-family: initial;
+            text-align: center;
+        }
+
+        .header p {
+            color: #f6f8f8;
+            font-size: 20px;
+        }
+
+        @keyframes revealText {
+            0% {
+                opacity: 0; /* Start with full transparency */
+                transform: translateY(20px); /* Optional: Start slightly below its position */
+            }
+            100% {
+                opacity: 1; /* Fully visible */
+                transform: translateY(0); /* Optional: Return to original position */
+            }
+        }
+
+        /* Section Styles */
+        #invitationSection {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    /* backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); */
+            border: 1px solid #030000; /* Light gray border */
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+
+        #invitationSection h2 {
+            color: #fcf9f9; /* Dark text color */
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center; /* Center align heading */
+        }
+
+        #invitationSection p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #efeaea; /* Medium dark text color */
+            text-align: center; /* Center align paragraph */
+        }
+
+        /* Form Styles */
+        #invitationForm {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        #invitationForm label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #f9f4f4; /* Medium dark text color */
+        }
+
+        #invitationForm input[type="text"],
+        #invitationForm input[type="email"],
+        #invitationForm textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        #invitationForm textarea {
+            resize: vertical; /* Allow vertical resizing of textarea */
+        }
+
+        #invitationForm button {
+            padding: 12px 24px; /* Larger padding for button */
+            background-color: #4CAF50; /* Green button background */
+            color: #ffffff; /* White text color */
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 1em;
+            transition: background-color 0.3s ease; /* Smooth hover transition */
+        }
+
+        #invitationForm button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Invitation Message Styles */
+        .message-container {
+            margin-top: 15px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .message-success {
+            background-color: #d4edda; /* Light green background for success message */
+            color: #155724; /* Dark green text color */
+            border: 1px solid #c3e6cb; /* Light green border */
+            border-radius: 5px;
+        }
+
+        .message-error {
+            background-color: #f8d7da; /* Light red background for error message */
+            color: #721c24; /* Dark red text color */
+            border: 1px solid #f5c6cb; /* Light red border */
+            border-radius: 5px;
+        }
+
+        /* CSS for Back Button */
+        .back-button {
+            background-color: #007bff; /* Primary blue background */
+            color: #ffffff; /* White text */
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            color: #ffffff; /* White text on hover */
+        }
+
+        .back-button:focus {
+            outline: none;
+        }
+
+        .back-button:active {
+            transform: translateY(1px); /* Add a slight downward movement on click */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Invitation Management</h1>
+        <!-- Optionally, you can keep the header consistent across all pages -->
+        <p>An all-in-one event management platform enabling users to schedule events efficiently.</p>
+    </header>
+
+    <!-- Your Invitation Management content from index.html -->
+    <section id="invitationSection">
+        <h2>Invitation Management</h2>
+        <p>Send and manage event invitations.</p>
+        <form id="invitationForm">
+            <label for="inviteName">Invite Name:</label>
+            <input type="text" id="inviteName" name="inviteName" required>
+            <label for="inviteEmail">Invite Email:</label>
+            <input type="email" id="inviteEmail" name="inviteEmail" required>
+            <label for="invitationMessage">Invitation Message:</label>
+            <textarea id="invitationMessage" name="invitationMessage" rows="4" required></textarea>
+            <button type="submit" class="button">Send Invitation</button>
+        </form>
+        <div id="messageContainer" class="message-container"></div>
+        <div id="sentInvitations" class="message-container"></div>
+        <button id="backButton" class="button back-button">← Back to Home</button>
+    </section>
+
+    <!-- Include scripts if necessary -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('invitationForm');
+            const messageContainer = document.getElementById('messageContainer');
+            const sentInvitationsContainer = document.getElementById('sentInvitations');
+            const backButton = document.getElementById('backButton');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                messageContainer.innerHTML = ''; // Clear previous messages
+
+                const formData = new FormData(form);
+                const inviteName = formData.get('inviteName').trim();
+                const inviteEmail = formData.get('inviteEmail').trim();
+                const invitationMessage = formData.get('invitationMessage').trim();
+
+                if (!inviteName || !inviteEmail || !invitationMessage) {
+                    messageContainer.innerHTML = '<p>Please fill out all fields.</p>';
+                    return;
+                }
+
+                // Simulate sending invitation (replace with actual API call)
+                const sendInvitation = new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        const invitationSent = true; // Change to false to simulate error
+                        if (invitationSent) {
+                            resolve({ inviteName, inviteEmail });
+                        } else {
+                            reject('Error sending invitation');
+                        }
+                    }, 1000);
+                });
+
+                sendInvitation.then((data) => {
+                    messageContainer.innerHTML = '<p>Invitation sent successfully!</p>';
+                    const sentInvitation = document.createElement('p');
+                    sentInvitation.textContent = `Invitation sent to ${data.inviteName} (${data.inviteEmail})`;
+                    sentInvitationsContainer.appendChild(sentInvitation);
+                    form.reset(); // Clear the form
+                }).catch((error) => {
+                    messageContainer.innerHTML = `<p>Error sending invitation: ${error}</p>`;
+                });
+            });
+
+            backButton.addEventListener('click', function() {
+                window.location.href = 'index1.html'; // Navigate back to index1.html
+            });
+        });
+    </script>
+</body>
+</html>

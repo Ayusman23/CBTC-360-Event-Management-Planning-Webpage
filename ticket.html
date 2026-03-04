@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Scheduling - EventPlanner360</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+            background-image: url('16.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+        }
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header h1 {
+    color: #fcf9f9;
+    margin-bottom: 10px;
+    font-size: 60px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header p {
+    color: #f8faf8;
+    font-size: 20px;
+}
+
+
+@keyframes revealText {
+    0% {
+        opacity: 0; /* Start with full transparency */
+        transform: translateY(20px); /* Optional: Start slightly below its position */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Optional: Return to original position */
+    }
+}
+
+/* Section Styles */
+#ticketSales {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid #e0e0e0; /* Light gray border */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    width: 50%;
+    max-width: 600px; /* Limit width to 600px for responsiveness */
+    margin: 0 auto; /* Center horizontally */
+}
+
+
+#ticketSales h2 {
+    color: #f4f2f2; /* Dark text color */
+    font-size: 30px;
+    margin-bottom: 15px;
+    text-align: center; /* Center align heading */
+}
+
+/* Form Styles */
+#ticketForm {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f5f5f5; /* Light gray background */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 5px;
+}
+
+#ticketForm label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555; /* Medium dark text color */
+}
+
+#ticketForm select,
+#ticketForm input[type="number"] {
+    width: calc(100% - 20px); /* Adjusted for padding */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+#ticketForm button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50; /* Green button background */
+    color: #fff; /* White text color */
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+#ticketForm button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Message Container Styles */
+#ticketMessage {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #d4edda; /* Light green background for success message */
+    color: #155724; /* Dark green text color */
+    border: 1px solid #c3e6cb; /* Light green border */
+    border-radius: 5px;
+    text-align: center; /* Center align text */
+}
+
+/* CSS for Back Button */
+.back-button {
+    background-color: #00ffea; /* Primary blue background */
+    color: #1b0101; /* White text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #03f066; /* Darker blue on hover */
+    color: #1a0101; /* White text on hover */
+}
+
+.back-button:focus {
+    outline: none;
+}
+
+.back-button:active {
+    transform: translateY(1px); /* Add a slight downward movement on click */
+}
+
+<style>
+    /* Styles for Ticket Details Section */
+    #ticketDetails {
+        margin-top: 50px; /* Adjust spacing as needed */
+        padding: 20px;
+        background-color: transparent; /* White background */
+        border: 1px solid #e0e0e0; /* Light gray border */
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    }
+
+    #ticketDetails h2 {
+        color: #0a0000; /* Dark text color */
+        font-size: 1.8em;
+        margin-bottom: 15px;
+        text-align: center; /* Center align heading */
+    }
+
+    #ticketDetailsContent {
+        /* Additional styles for ticket details content */
+        color: #555555; /* Medium dark text color */
+        font-size: 1.2em;
+        line-height: 1.6;
+    }
+</style>
+
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Buy Tickets</h1>
+        <!-- Optionally, you can keep the header consistent across all pages -->
+        <p>An all-in-one event management platform enabling users to schedule events efficiently.</p>
+    </header>
+
+    <!-- Your Buy Tickets content from index.html -->
+    <section id="ticketSales">
+        <h2>Buy Tickets</h2>
+        <form id="ticketForm">
+            <label for="ticketType">Ticket Type:</label>
+            <select id="ticketType" name="ticketType" required>
+                <option value="">Select Ticket Type</option>
+                <option value="regular">Regular</option>
+                <option value="vip">VIP</option>
+                <option value="premium">Premium</option>
+            </select>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" min="1" required>
+            <button type="submit" class="button">Buy Tickets</button>
+            <div id="ticketDetails">
+                <h2>Ticket Details</h2>
+                <div id="ticketDetailsContent"></div>
+            </div>
+        </form>
+        <div id="ticketMessage"></div>
+        <button id="backButton" class="button back-button">← Back to Home</button>
+    </section>
+
+    <!-- Include scripts if necessary -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('ticketForm');
+    const messageContainer = document.getElementById('ticketMessage');
+    const ticketDetailsContainer = document.getElementById('ticketDetailsContent');
+    const backButton = document.getElementById('backButton');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Reset previous messages and details
+        messageContainer.innerHTML = '';
+        ticketDetailsContainer.innerHTML = '';
+
+        // Fetch form data
+        const formData = new FormData(form);
+
+        // Validate form fields
+        const ticketType = formData.get('ticketType');
+        const quantity = formData.get('quantity');
+
+        if (!ticketType || !quantity || quantity < 1) {
+            // If any of the fields are empty or quantity is less than 1, show an error message
+            messageContainer.innerHTML = '<p>Please select a ticket type and enter a valid quantity.</p>';
+            return; // Stop further execution
+        }
+
+        // Calculate individual ticket price based on ticket type
+        let pricePerTicket;
+        switch (ticketType) {
+            case 'regular':
+                pricePerTicket = 50; // Example price for regular ticket
+                break;
+            case 'vip':
+                pricePerTicket = 100; // Example price for VIP ticket
+                break;
+            case 'premium':
+                pricePerTicket = 150; // Example price for premium ticket
+                break;
+            default:
+                pricePerTicket = 0; // Default to 0 if ticket type is unknown (though should not happen with validation)
+        }
+
+        // Calculate total price
+        const totalPrice = pricePerTicket * quantity;
+
+        // Generate ticket details HTML
+        const ticketDetailsHTML = `<p>Successfully purchased ${quantity} ${ticketType} ticket(s)!</p>
+                                   <p>Price per ticket: ${pricePerTicket}</p>
+                                   <p>Total Price: ${totalPrice}</p>`;
+
+        // Display ticket details
+        messageContainer.innerHTML = ticketDetailsHTML;
+        ticketDetailsContainer.innerHTML = ticketDetailsHTML;
+
+        // Optionally, you can clear the form after successful submission
+        form.reset();
+    });
+
+    // Back button functionality
+    backButton.addEventListener('click', function() {
+        window.location.href = 'index1.html'; // Navigate to index.html
+    });
+});
+
+
+
+
+    </script>
+</body>
+</html>

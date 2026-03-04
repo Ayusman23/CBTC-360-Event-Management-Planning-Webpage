@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="About EventPlanner 360 — the professional real-time event planning platform built by Ayusman Samantaray.">
+    <title>About — EventPlanner 360</title>
+    <link rel="stylesheet" href="frontend/css/main.css">
+    <link rel="icon" type="image/x-icon" href="frontend/assets/logo.jpg">
+</head>
+
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ── Navbar ─────────────────────────────────────────── -->
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="nav-brand">
+            <div class="brand-icon">🎯</div>EventPlanner 360
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="event.html" class="nav-link">Events</a></li>
+            <li><a href="about.html" class="nav-link active">About</a></li>
+        </ul>
+        <div class="nav-actions" id="nav-actions">
+            <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+            <a href="login.html#signup" class="btn btn-primary btn-sm">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- ── About Hero ─────────────────────────────────────── -->
+    <section
+        style="padding:7rem 2rem 4rem;background:var(--gradient-hero);position:relative;overflow:hidden;text-align:center;">
+        <div class="orb orb-1" style="opacity:.15;"></div>
+        <div class="orb orb-2" style="opacity:.1;"></div>
+        <div style="position:relative;z-index:2;max-width:740px;margin:0 auto;">
+            <div class="section-tag" style="animation:fade-up .5s ease both;">🌟 Our Story</div>
+            <h1 class="hero-title" style="animation:fade-up .5s ease .1s both;">About <span
+                    class="gradient-text">EventPlanner 360</span></h1>
+            <p class="hero-subtitle" style="animation:fade-up .5s ease .2s both;">
+                A professional full-stack event management platform built with passion, precision, and purpose. From
+                concept to production — powering real-world events.
+            </p>
+        </div>
+    </section>
+
+    <!-- ── About Content ──────────────────────────────────── -->
+    <section class="section">
+        <div class="section-inner" style="max-width:900px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;" class="fade-in-up">
+                <div>
+                    <div class="section-tag" style="text-align:left;display:inline-block;margin-bottom:1rem;">The
+                        Platform</div>
+                    <h2 class="section-title" style="text-align:left;">What is <span class="accent">EventPlanner
+                            360?</span></h2>
+                    <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:1.25rem;">
+                        EventPlanner 360 is a professional, full-stack web application that provides end-to-end event
+                        management capabilities. It enables organizers to create, manage, and track events with
+                        real-time updates powered by Socket.io.
+                    </p>
+                    <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem;">
+                        From scheduling and guest management to RSVP tracking and analytics — everything is built into
+                        one cohesive, beautifully designed platform backed by a robust Node.js + SQLite backend.
+                    </p>
+                    <a href="login.html#signup" class="btn btn-primary">🚀 Get Started Free</a>
+                </div>
+                <div>
+                    <div style="height:300px;border-radius:var(--radius-lg);overflow:hidden;position:relative;">
+                        <img src="frontend/assets/bg-2.jpg" alt="About EventPlanner 360"
+                            style="width:100%;height:100%;object-fit:cover;">
+                        <div
+                            style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,99,255,.3),rgba(236,72,153,.2));">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Tech Stack ─────────────────────────────────────── -->
+    <section class="section" style="background:rgba(108,99,255,.03);">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-tag fade-in-up">🛠️ Technology</div>
+                <h2 class="section-title fade-in-up">Built with <span class="accent">Modern Stack</span></h2>
+                <p class="section-desc fade-in-up">Professional full-stack architecture designed for performance and
+                    scalability.</p>
+            </div>
+            <div class="features-grid">
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background:rgba(16,185,129,.15);">🌐</div>
+                    <h3 class="card-title">Frontend</h3>
+                    <p class="card-desc">Pure HTML5, Vanilla CSS with custom design system, and JavaScript. No heavy
+                        frameworks — just clean, fast code.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;">
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">HTML5</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">CSS3</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">JavaScript
+                            ES6+</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">Socket.io
+                            Client</span>
+                    </div>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background:rgba(59,130,246,.15);">⚙️</div>
+                    <h3 class="card-title">Backend</h3>
+                    <p class="card-desc">Node.js with Express.js for a fast, scalable REST API. JWT authentication with
+                        bcrypt for industry-grade security.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;">
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">Node.js</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">Express.js</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">JWT
+                            Auth</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">bcryptjs</span>
+                    </div>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon" style="background:rgba(245,158,11,.15);">🗄️</div>
+                    <h3 class="card-title">Database & Real-Time</h3>
+                    <p class="card-desc">SQLite with better-sqlite3 for persistent storage. Socket.io for real-time
+                        bidirectional event communication.</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;">
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">SQLite</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">better-sqlite3</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">Socket.io</span>
+                        <span
+                            style="padding:.2rem .7rem;background:rgba(255,255,255,.06);border-radius:var(--radius-full);font-size:.72rem;border:1px solid var(--border);">REST
+                            API</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Creator Section ────────────────────────────────── -->
+    <section class="section">
+        <div class="section-inner" style="max-width:700px;text-align:center;">
+            <div class="section-header">
+                <div class="section-tag fade-in-up">👨‍💻 Developer</div>
+                <h2 class="section-title fade-in-up">Meet the <span class="accent">Creator</span></h2>
+            </div>
+            <div class="card fade-in-up" style="text-align:center;padding:3rem 2rem;">
+                <div
+                    style="width:80px;height:80px;background:var(--gradient-btn);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1.5rem;">
+                    AS</div>
+                <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:.4rem;">Ayusman Samantaray</h3>
+                <p style="color:var(--primary-light);font-size:.9rem;font-weight:600;margin-bottom:1.25rem;">Full-Stack
+                    Developer · CBTC Internship Project</p>
+                <p style="color:var(--text-secondary);line-height:1.8;max-width:500px;margin:0 auto 1.5rem;">
+                    Passionate about building professional, production-quality web applications. EventPlanner 360
+                    demonstrates a complete full-stack system with real-time capabilities, authentication, and a modern
+                    UI.
+                </p>
+                <div style="display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;">
+                    <a href="index.html" class="btn btn-primary">🏠 View Platform</a>
+                    <a href="dashboard.html" class="btn btn-outline">📊 Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Features Quick List ────────────────────────────── -->
+    <section class="section" style="background:rgba(108,99,255,.03);">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-tag fade-in-up">✅ Capabilities</div>
+                <h2 class="section-title fade-in-up">Everything <span class="accent">Included</span></h2>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+                ${[
+                ['🔐','Secure Auth','JWT + bcrypt password hashing'],
+                ['🗓️','Event CRUD','Create, edit, delete events'],
+                ['👥','Guest Mgmt','Add & remove event guests'],
+                ['📨','RSVP Tracking','Collect & view RSVPs live'],
+                ['⚡','Real-Time','Socket.io live updates'],
+                ['📊','Dashboard','Stats, notifications & more'],
+                ['🎨','Beautiful UI','Dark mode, glassmorphism'],
+                ['📱','Responsive','Works on all screen sizes'],
+                ].map(([icon,title,desc]) => `
+                <div class="card fade-in-up" style="padding:1.25rem;display:flex;align-items:center;gap:1rem;">
+                    <div style="font-size:1.5rem;flex-shrink:0;">${icon}</div>
+                    <div>
+                        <div style="font-weight:700;font-size:.9rem;">${title}</div>
+                        <div style="color:var(--text-muted);font-size:.78rem;">${desc}</div>
+                    </div>
+                </div>`).join('')}
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-bottom" style="border-top:none;padding-top:0;">
+                <span>© 2026 EventPlanner 360 · Built by Ayusman Samantaray · CBTC Internship</span>
+                <a href="index.html" class="btn btn-ghost btn-sm">← Back to Home</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="frontend/js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavbar();
+            initScrollAnimations();
+            const user = Auth.getUser();
+            if (user && Auth.isLoggedIn()) {
+                document.getElementById('nav-actions').innerHTML = `
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">📊 Dashboard</a>
+      <button class="btn btn-outline btn-sm" onclick="Auth.clearSession();location.href='index.html'">Logout</button>`;
+            }
+        });
+    </script>
+</body>
+
+</html>

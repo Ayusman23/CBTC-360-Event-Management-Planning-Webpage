@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Scheduling - EventPlanner360</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #0c0000;
+            background-image: url('one.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+}
+
+.header h1 {
+    color: #fbfefe;
+    margin-bottom: 10px;
+    font-size: 60px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header p {
+    color: #f0f3f4 ;
+    font-size: 30px;
+}
+
+
+@keyframes revealText {
+    0% {
+        opacity: 0; /* Start with full transparency */
+        transform: translateY(20px); /* Optional: Start slightly below its position */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Optional: Return to original position */
+    }
+}
+
+        /* RSVP Section */
+        #rsvpSection {
+            background-color: #fff;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 600px; /* Adjusted width */
+    margin: auto;
+    
+        }
+
+        #rsvpSection h2 {
+            color: #150000;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #rsvpForm {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #rsvpForm label {
+            display: block;
+            margin-bottom: 8px;
+            color: #120000;
+
+        }
+
+        #rsvpForm input[type="text"],
+        #rsvpForm input[type="email"],
+        #rsvpForm input[type="number"],
+        #rsvpForm button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 25px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        #rsvpForm button {
+            background-color: #17a2b8;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #rsvpForm button:hover {
+            background-color: #137e8a;
+        }
+
+        #rsvpMessage {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #000e03;
+            color: #f3f8f4;
+            border-radius: 5px;
+        }
+
+        /* CSS for Back Button */
+.back-button {
+    background-color: #007bff; /* Primary blue background */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    align-items: center;
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: #ffffff; /* White text on hover */
+}
+
+.back-button:focus {
+    outline: none;
+}
+
+.back-button:active {
+    transform: translateY(1px); /* Add a slight downward movement on click */
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>RSVP Management</h1>
+        <!-- Optionally, you can keep the header consistent across all pages -->
+        <p><b>An all-in-one event management platform enabling users to schedule events efficiently.</b></p>
+    </header>
+
+    <!-- Your RSVP management content from index.html -->
+    <section id="rsvpSection">
+        <h2><b>RSVP Management</b></h2>
+        <form id="rsvpForm">
+            <label for="fullName"><b>Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="attendees">Number of Attendees:</label>
+            <input type="number" id="attendees" name="attendees" min="1" required>
+            <button type="submit" class="button">Submit</button>
+        </form>
+        <div id="rsvpMessage"></div>
+        <button id="backButton" class="button back-button">← Back to Home</button></b>
+    </section>
+
+    <!-- Include scripts if necessary -->
+    <script>
+    const rsvpForm = document.getElementById('rsvpForm');
+
+    rsvpForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fullName = this.fullName.value;
+            const email = this.email.value;
+            const attendees = this.attendees.value;
+            const backButton = document.getElementById('backButton');
+
+            // Normally here you would handle the RSVP form submission (e.g., send data to server)
+            // For demonstration purposes, we'll just display a message
+            rsvpMessage.innerHTML = `<p>Thank you, ${fullName}! Your RSVP for ${attendees} attendees has been received.</p>`;
+            this.reset();
+        });
+
+        // Back button functionality
+backButton.addEventListener('click', function() {
+    window.location.href = 'index1.html'; // Navigate to index.html
+});
+
+    </script>
+</body>
+</html>

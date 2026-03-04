@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="EventPlanner 360 – Your professional real-time event planning platform. Create, manage, and track events seamlessly.">
+    <title>EventPlanner 360 — Professional Event Management Platform</title>
+    <link rel="stylesheet" href="frontend/css/main.css">
+    <link rel="icon" type="image/x-icon" href="frontend/assets/logo.jpg">
+</head>
+
+<body>
+
+    <!-- ── Toast Container ─────────────────────────────────── -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ── Navigation ─────────────────────────────────────── -->
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="nav-brand">
+            <div class="brand-icon">🎯</div>
+            EventPlanner 360
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link active">Home</a></li>
+            <li><a href="about.html" class="nav-link">About</a></li>
+            <li><a href="#features" class="nav-link">Features</a></li>
+            <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+        </ul>
+        <div class="nav-actions" id="nav-actions">
+            <a href="login.html" class="btn btn-outline btn-sm" id="login-btn">Login</a>
+            <a href="login.html#signup" class="btn btn-primary btn-sm" id="signup-btn">Get Started Free</a>
+        </div>
+    </nav>
+
+    <!-- ── Hero Section ────────────────────────────────────── -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                Real-Time Event Planning · Now Live
+            </div>
+            <h1 class="hero-title">
+                Plan Events That
+                <span class="gradient-text">Leave a Lasting<br>Impression</span>
+            </h1>
+            <p class="hero-subtitle">
+                EventPlanner 360 brings everything you need — scheduling, guest management, RSVPs, and real-time
+                collaboration — into one beautiful platform.
+            </p>
+            <div class="hero-buttons">
+                <a href="login.html#signup" class="btn btn-primary btn-lg" id="hero-cta">
+                    🚀 Start Planning Free
+                </a>
+                <a href="#features" class="btn btn-outline btn-lg">
+                    ✨ Explore Features
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="stat-value">10K+</div>
+                    <div class="stat-label">Events Created</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="stat-value">50K+</div>
+                    <div class="stat-label">Happy Users</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="stat-value">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Features Section ────────────────────────────────── -->
+    <section class="section" id="features" style="background: rgba(108,99,255,0.03);">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-tag fade-in-up">Everything You Need</div>
+                <h2 class="section-title fade-in-up">Powerful Features for <span class="accent">Every Event</span></h2>
+                <p class="section-desc fade-in-up">From corporate conferences to intimate weddings — we've got you
+                    covered with enterprise-grade tools.</p>
+            </div>
+            <div class="features-grid">
+                <div class="card fade-in-up">
+                    <div class="card-icon">🗓️</div>
+                    <h3 class="card-title">Smart Event Scheduling</h3>
+                    <p class="card-desc">Create and manage events with intelligent scheduling tools. Set dates, times,
+                        venues, and categories effortlessly.</p>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon">👥</div>
+                    <h3 class="card-title">Guest List Management</h3>
+                    <p class="card-desc">Add, track, and manage your guest lists with ease. Get notified when guests
+                        RSVP in real time.</p>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon">📨</div>
+                    <h3 class="card-title">RSVP Tracking</h3>
+                    <p class="card-desc">Track responses effortlessly. Know exactly who's coming, who declined, and who
+                        hasn't responded yet.</p>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon">⚡</div>
+                    <h3 class="card-title">Real-Time Updates</h3>
+                    <p class="card-desc">Powered by Socket.io — see RSVPs and event changes live without refreshing the
+                        page.</p>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon">📊</div>
+                    <h3 class="card-title">Dashboard & Analytics</h3>
+                    <p class="card-desc">Your personal dashboard shows all events, stats, notifications, and guest
+                        counts at a glance.</p>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon">🔐</div>
+                    <h3 class="card-title">Secure Authentication</h3>
+                    <p class="card-desc">Industry-standard JWT authentication with bcrypt password hashing keeps your
+                        data safe.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── How It Works ─────────────────────────────────────── -->
+    <section class="section" id="how-it-works">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-tag fade-in-up">Simple Process</div>
+                <h2 class="section-title fade-in-up">Up and Running in <span class="accent">3 Simple Steps</span></h2>
+            </div>
+            <div class="features-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="card fade-in-up text-center" style="padding: 2.5rem 2rem;">
+                    <div style="font-size:3rem; margin-bottom:1.25rem;">1️⃣</div>
+                    <h3 class="card-title">Create Account</h3>
+                    <p class="card-desc">Sign up in seconds. Your name is automatically picked up for a personalized
+                        experience.</p>
+                </div>
+                <div class="card fade-in-up text-center" style="padding: 2.5rem 2rem;">
+                    <div style="font-size:3rem; margin-bottom:1.25rem;">2️⃣</div>
+                    <h3 class="card-title">Plan Your Event</h3>
+                    <p class="card-desc">Use the intuitive event creator. Add details, venue, date, capacity and
+                        color-code your events.</p>
+                </div>
+                <div class="card fade-in-up text-center" style="padding: 2.5rem 2rem;">
+                    <div style="font-size:3rem; margin-bottom:1.25rem;">3️⃣</div>
+                    <h3 class="card-title">Track in Real Time</h3>
+                    <p class="card-desc">Add guests, collect RSVPs, and watch your dashboard update live as people
+                        respond.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Gallery Section (uses moved images) ─────────────── -->
+    <section class="section" style="background: rgba(108,99,255,0.03); padding: 5rem 2rem;">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-tag fade-in-up">Our Events</div>
+                <h2 class="section-title fade-in-up">Events We've Helped <span class="accent">Create</span></h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+                <div class="card fade-in-up" style="padding:0; overflow:hidden;">
+                    <div style="height:200px; overflow:hidden; position:relative;">
+                        <img src="frontend/assets/one.jpg" alt="Event Scheduling"
+                            style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s;">
+                        <div
+                            style="position:absolute;inset:0;background:linear-gradient(to top, rgba(10,10,26,0.9),transparent);display:flex;align-items:flex-end;padding:1.25rem;">
+                            <div>
+                                <div class="event-badge badge-upcoming" style="margin-bottom:0.4rem;">🗓️ Scheduling
+                                </div>
+                                <h4 style="font-size:1rem;font-weight:700;">Event Scheduling</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card fade-in-up" style="padding:0; overflow:hidden;">
+                    <div style="height:200px; overflow:hidden; position:relative;">
+                        <img src="frontend/assets/two.jpg" alt="Vendor Management"
+                            style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s;">
+                        <div
+                            style="position:absolute;inset:0;background:linear-gradient(to top, rgba(10,10,26,0.9),transparent);display:flex;align-items:flex-end;padding:1.25rem;">
+                            <div>
+                                <div class="event-badge badge-upcoming" style="margin-bottom:0.4rem;">🏢 Corporate</div>
+                                <h4 style="font-size:1rem;font-weight:700;">Vendor Management</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card fade-in-up" style="padding:0; overflow:hidden;">
+                    <div style="height:200px; overflow:hidden; position:relative;">
+                        <img src="frontend/assets/c-2.jpg" alt="Event Creation"
+                            style="width:100%;height:100%;object-fit:cover;transition:transform 0.5s;">
+                        <div
+                            style="position:absolute;inset:0;background:linear-gradient(to top, rgba(10,10,26,0.9),transparent);display:flex;align-items:flex-end;padding:1.25rem;">
+                            <div>
+                                <div class="event-badge badge-upcoming" style="margin-bottom:0.4rem;">🎉 Party</div>
+                                <h4 style="font-size:1rem;font-weight:700;">Event Creation & Management</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CTA Section ──────────────────────────────────────── -->
+    <section class="section">
+        <div class="section-inner">
+            <div class="card fade-in-up text-center"
+                style="background: linear-gradient(135deg, rgba(108,99,255,0.15), rgba(236,72,153,0.1)); border-color: rgba(108,99,255,0.3); padding: 4rem 2rem;">
+                <div style="font-size:3.5rem; margin-bottom:1rem;">🎯</div>
+                <h2 class="section-title" style="margin-bottom: 1rem;">Ready to Plan Your <span class="accent">Next
+                        Event?</span></h2>
+                <p
+                    style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 2rem; font-size: 1rem; line-height: 1.7;">
+                    Join thousands of event planners who trust EventPlanner 360. Sign up free — no credit card required.
+                </p>
+                <a href="login.html#signup" class="btn btn-primary btn-lg">
+                    🚀 Start for Free Today
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Footer ───────────────────────────────────────────── -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">🎯 EventPlanner 360</div>
+                    <p class="footer-tagline">The professional real-time event planning platform trusted by thousands of
+                        organizers worldwide. Plan, manage, and execute flawless events.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Platform</h5>
+                    <div class="footer-links">
+                        <a href="dashboard.html">Dashboard</a>
+                        <a href="event.html">Create Event</a>
+                        <a href="login.html">Login</a>
+                        <a href="login.html#signup">Sign Up</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <div class="footer-links">
+                        <a href="about.html">About Us</a>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">How It Works</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Connect</h5>
+                    <div class="footer-links">
+                        <a href="#">GitHub</a>
+                        <a href="#">LinkedIn</a>
+                        <a href="#">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 EventPlanner 360 · Built by Ayusman Samantaray</span>
+                <div class="footer-social">
+                    <a href="#" class="social-btn">🐱</a>
+                    <a href="#" class="social-btn">💼</a>
+                    <a href="#" class="social-btn">🐦</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="frontend/js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavbar();
+            initScrollAnimations();
+
+            // Update nav based on login state
+            const user = Auth.getUser();
+            const navActions = document.getElementById('nav-actions');
+            if (user && Auth.isLoggedIn()) {
+                navActions.innerHTML = `
+        <a href="dashboard.html" class="btn btn-ghost btn-sm">👤 ${user.name.split(' ')[0]}'s Dashboard</a>
+        <button class="btn btn-outline btn-sm" onclick="Auth.clearSession(); location.reload()">Logout</button>
+      `;
+            }
+
+            // Hover image zoom
+            document.querySelectorAll('.card img').forEach(img => {
+                img.parentElement.addEventListener('mouseenter', () => img.style.transform = 'scale(1.07)');
+                img.parentElement.addEventListener('mouseleave', () => img.style.transform = 'scale(1)');
+            });
+        });
+    </script>
+</body>
+
+</html>

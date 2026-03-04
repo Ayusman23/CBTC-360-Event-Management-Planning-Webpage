@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login or create your EventPlanner 360 account to start planning amazing events.">
+    <title>Login / Sign Up — EventPlanner 360</title>
+    <link rel="stylesheet" href="frontend/css/main.css">
+    <link rel="icon" type="image/x-icon" href="frontend/assets/logo.jpg">
+</head>
+
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="auth-page">
+        <!-- ── Left Panel ─────────────────────────────────────── -->
+        <div class="auth-left">
+            <div class="auth-left-bg"></div>
+            <div class="orb orb-1" style="opacity:0.15;width:300px;height:300px;top:-80px;left:-80px;"></div>
+            <div class="orb orb-2" style="opacity:0.12;width:200px;height:200px;bottom:50px;right:50px;"></div>
+            <div class="auth-left-content">
+                <div class="auth-left-logo">🎯 EventPlanner 360</div>
+                <h2 class="auth-left-headline">Plan Events That <span
+                        style="background:var(--gradient-btn);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Matter</span>
+                </h2>
+                <p class="auth-left-desc">Join thousands of event professionals who create unforgettable experiences
+                    with our platform.</p>
+                <div class="auth-features">
+                    <div class="auth-feature">
+                        <div class="feat-icon">⚡</div>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;">Real-Time Updates</div>
+                            <div style="font-size:0.78rem;color:var(--text-muted);">Live RSVP tracking via Socket.io
+                            </div>
+                        </div>
+                    </div>
+                    <div class="auth-feature">
+                        <div class="feat-icon">🗓️</div>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;">Smart Scheduling</div>
+                            <div style="font-size:0.78rem;color:var(--text-muted);">Create & manage events effortlessly
+                            </div>
+                        </div>
+                    </div>
+                    <div class="auth-feature">
+                        <div class="feat-icon">🔐</div>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;">Secure & Private</div>
+                            <div style="font-size:0.78rem;color:var(--text-muted);">JWT auth with encrypted passwords
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Right Panel ────────────────────────────────────── -->
+        <div class="auth-right">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <a href="index.html"
+                        style="display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--text-muted);margin-bottom:1.5rem;font-weight:600;text-decoration:none;">←
+                        Back to Home</a>
+                    <h1 id="auth-heading">Welcome Back 👋</h1>
+                    <p id="auth-subheading" style="color:var(--text-secondary);font-size:.9rem;margin-top:.35rem;">Sign
+                        in to your EventPlanner 360 account</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+                    <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+                </div>
+
+                <!-- ── Login Form ──────────────────────────────────── -->
+                <div class="auth-tab-content active" id="content-login">
+                    <div id="login-alert"></div>
+                    <form id="login-form" novalidate>
+                        <div class="form-group">
+                            <label class="form-label" for="login-email">Email Address</label>
+                            <div class="form-control-icon">
+                                <span class="icon">📧</span>
+                                <input type="email" id="login-email" class="form-control" placeholder="you@example.com"
+                                    required>
+                            </div>
+                            <div class="form-error" id="login-email-err">Please enter a valid email.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="login-password">
+                                Password
+                                <a href="#"
+                                    style="float:right;color:var(--primary-light);font-size:0.8rem;font-weight:600;">Forgot?</a>
+                            </label>
+                            <div class="form-control-icon">
+                                <span class="icon">🔑</span>
+                                <input type="password" id="login-password" class="form-control"
+                                    placeholder="Your password" required>
+                                <button type="button" class="toggle-pwd" onclick="togglePwd('login-password', this)"
+                                    title="Show/hide password">👁️</button>
+                            </div>
+                            <div class="form-error" id="login-pwd-err">Password is required.</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full btn-lg" id="login-submit"
+                            style="margin-top:0.5rem;">
+                            Sign In
+                        </button>
+                    </form>
+                    <div class="auth-footer">
+                        Don't have an account? <a href="#" onclick="switchTab('signup')">Create one free →</a>
+                    </div>
+                </div>
+
+                <!-- ── Signup Form ─────────────────────────────────── -->
+                <div class="auth-tab-content" id="content-signup">
+                    <div id="signup-alert"></div>
+                    <form id="signup-form" novalidate>
+                        <div class="form-group">
+                            <label class="form-label" for="signup-name">Full Name</label>
+                            <div class="form-control-icon">
+                                <span class="icon">👤</span>
+                                <input type="text" id="signup-name" class="form-control"
+                                    placeholder="e.g. Ayusman Samantaray" required>
+                            </div>
+                            <div class="form-error" id="signup-name-err">Name must be at least 2 characters.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="signup-email">Email Address</label>
+                            <div class="form-control-icon">
+                                <span class="icon">📧</span>
+                                <input type="email" id="signup-email" class="form-control" placeholder="you@example.com"
+                                    required>
+                            </div>
+                            <div class="form-error" id="signup-email-err">Please enter a valid email.</div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="signup-password">Password</label>
+                                <div class="form-control-icon">
+                                    <span class="icon">🔑</span>
+                                    <input type="password" id="signup-password" class="form-control"
+                                        placeholder="Min. 6 chars" required>
+                                    <button type="button" class="toggle-pwd"
+                                        onclick="togglePwd('signup-password', this)">👁️</button>
+                                </div>
+                                <div class="form-error" id="signup-pwd-err">Minimum 6 characters.</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="signup-confirm">Confirm Password</label>
+                                <div class="form-control-icon">
+                                    <span class="icon">🔐</span>
+                                    <input type="password" id="signup-confirm" class="form-control"
+                                        placeholder="Repeat password" required>
+                                    <button type="button" class="toggle-pwd"
+                                        onclick="togglePwd('signup-confirm', this)">👁️</button>
+                                </div>
+                                <div class="form-error" id="signup-confirm-err">Passwords do not match.</div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full btn-lg" id="signup-submit"
+                            style="margin-top:0.5rem;">
+                            Create My Account 🚀
+                        </button>
+                    </form>
+                    <div class="auth-footer">
+                        Already have an account? <a href="#" onclick="switchTab('login')">Sign in →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="frontend/js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Auth.redirectIfLoggedIn('dashboard.html');
+            if (window.location.hash === '#signup') switchTab('signup');
+        });
+
+        function switchTab(tab) {
+            ['login', 'signup'].forEach(t => {
+                document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+                document.getElementById('content-' + t).classList.toggle('active', t === tab);
+            });
+            if (tab === 'login') {
+                document.getElementById('auth-heading').textContent = 'Welcome Back 👋';
+                document.getElementById('auth-subheading').textContent = 'Sign in to your EventPlanner 360 account';
+            } else {
+                document.getElementById('auth-heading').textContent = 'Create Account 🚀';
+                document.getElementById('auth-subheading').textContent = 'Join free — no credit card needed';
+            }
+        }
+
+        function togglePwd(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.textContent = show ? '🙈' : '👁️';
+        }
+
+        function showErr(id, msg) {
+            const el = document.getElementById(id);
+            if (el) { el.textContent = msg; el.classList.add('visible'); }
+        }
+        function clearErr(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('visible');
+        }
+        function showAlert(id, msg, type = 'danger') {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
+        }
+
+        // ── Login ─────────────────────────────────────────────────
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            document.getElementById('login-alert').innerHTML = '';
+            let valid = true;
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            if (!email || !/\S+@\S+\.\S+/.test(email)) { showErr('login-email-err', 'Valid email required.'); valid = false; } else clearErr('login-email-err');
+            if (!password) { showErr('login-pwd-err', 'Password required.'); valid = false; } else clearErr('login-pwd-err');
+            if (!valid) return;
+
+            const btn = document.getElementById('login-submit');
+            btn.innerHTML = '<span class="spinner"></span> Signing in…';
+            btn.classList.add('btn-loading');
+
+            const res = await API.login({ email, password });
+            btn.textContent = 'Sign In';
+            btn.classList.remove('btn-loading');
+
+            if (res.success) {
+                Auth.setSession(res.token, res.user);
+                Toast.success(`Welcome back, ${res.user.name.split(' ')[0]}! 🎉`);
+                setTimeout(() => window.location.href = 'dashboard.html', 800);
+            } else {
+                showAlert('login-alert', res.message, 'danger');
+            }
+        });
+
+        // ── Signup ────────────────────────────────────────────────
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            document.getElementById('signup-alert').innerHTML = '';
+            let valid = true;
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+
+            if (!name || name.length < 2) { showErr('signup-name-err', 'Name min 2 chars.'); valid = false; } else clearErr('signup-name-err');
+            if (!email || !/\S+@\S+\.\S+/.test(email)) { showErr('signup-email-err', 'Valid email required.'); valid = false; } else clearErr('signup-email-err');
+            if (!password || password.length < 6) { showErr('signup-pwd-err', 'Min 6 characters.'); valid = false; } else clearErr('signup-pwd-err');
+            if (password !== confirm) { showErr('signup-confirm-err', 'Passwords do not match.'); valid = false; } else clearErr('signup-confirm-err');
+            if (!valid) return;
+
+            const btn = document.getElementById('signup-submit');
+            btn.innerHTML = '<span class="spinner"></span> Creating account…';
+            btn.classList.add('btn-loading');
+
+            const res = await API.signup({ name, email, password });
+            btn.textContent = 'Create My Account 🚀';
+            btn.classList.remove('btn-loading');
+
+            if (res.success) {
+                Auth.setSession(res.token, res.user);
+                Toast.success(`Account created! Welcome, ${res.user.name.split(' ')[0]}! 🎊`);
+                setTimeout(() => window.location.href = 'dashboard.html', 800);
+            } else {
+                showAlert('signup-alert', res.message, 'danger');
+            }
+        });
+    </script>
+</body>
+
+</html>

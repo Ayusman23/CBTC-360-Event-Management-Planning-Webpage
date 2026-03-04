@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your EventPlanner 360 Dashboard — manage events, guests, and real-time stats.">
+    <title>Dashboard — EventPlanner 360</title>
+    <link rel="stylesheet" href="frontend/css/main.css">
+    <link rel="icon" type="image/x-icon" href="frontend/assets/logo.jpg">
+    <style>
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .notif-item {
+            display: flex;
+            align-items: flex-start;
+            gap: .75rem;
+            padding: .85rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: .85rem;
+            transition: background .2s;
+        }
+
+        .notif-item:last-child {
+            border-bottom: none;
+        }
+
+        .notif-item:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .notif-item.unread {
+            border-left: 3px solid var(--primary);
+        }
+
+        .notif-icon {
+            font-size: 1.1rem;
+            margin-top: .1rem;
+        }
+
+        .notif-text {
+            flex: 1;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .notif-text b {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: .15rem;
+        }
+
+        .notif-time {
+            font-size: .72rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        @media(max-width:900px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .5);
+            z-index: 99;
+            backdrop-filter: blur(4px);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- ── Navbar ─────────────────────────────────────────── -->
+    <nav class="navbar" id="navbar">
+        <div style="display:flex;align-items:center;gap:1rem;">
+            <button class="btn btn-icon" id="sidebar-toggle" title="Toggle Sidebar">☰</button>
+            <a href="index.html" class="nav-brand">
+                <div class="brand-icon">🎯</div>EventPlanner 360
+            </a>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+            <span class="real-time-dot" title="Real-time connected">Live</span>
+            <button class="btn btn-icon notif-btn" id="notif-btn" title="Notifications">
+                🔔
+                <span class="notif-badge hidden" id="notif-count">0</span>
+            </button>
+            <div style="display:flex;align-items:center;gap:.5rem;" id="nav-user">
+                <div class="user-avatar" id="nav-avatar" style="width:34px;height:34px;font-size:.8rem;">?</div>
+                <span style="font-size:.88rem;font-weight:600;" id="nav-name">Loading…</span>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="logout()">Logout</button>
+        </div>
+    </nav>
+
+    <!-- ── Layout ──────────────────────────────────────────── -->
+    <div class="dashboard-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-user" id="sidebar-user">
+                <div class="user-avatar" id="sidebar-avatar">?</div>
+                <div class="user-info">
+                    <div class="user-name" id="sidebar-name">Loading…</div>
+                    <div class="user-email" id="sidebar-email">…</div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">Main</div>
+                <a href="dashboard.html" class="sidebar-item active">
+                    <span class="s-icon">📊</span> Dashboard
+                </a>
+                <button class="sidebar-item" onclick="showSection('events-section')">
+                    <span class="s-icon">🗓️</span> My Events
+                </button>
+                <button class="sidebar-item" onclick="openCreateEvent()">
+                    <span class="s-icon">➕</span> Create Event
+                </button>
+            </div>
+            <div class="sidebar-section">
+                <div class="sidebar-label">Account</div>
+                <button class="sidebar-item" onclick="showSection('notifications-section')">
+                    <span class="s-icon">🔔</span> Notifications
+                    <span class="s-badge hidden" id="sidebar-notif-badge">0</span>
+                </button>
+                <button class="sidebar-item" onclick="showSection('export-section')">
+                    <span class="s-icon">📊</span> Export to Excel
+                </button>
+                <a href="about.html" class="sidebar-item"><span class="s-icon">ℹ️</span> About</a>
+                <button class="sidebar-item" onclick="logout()" style="color:var(--danger);">
+                    <span class="s-icon">🚪</span> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- ── Overview Section ─────────────────────────────── -->
+            <div id="overview-section">
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h1 class="page-title" id="welcome-msg">Welcome back! 👋</h1>
+                        <p class="page-subtitle" id="welcome-date">Loading your dashboard…</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openCreateEvent()">
+                        ➕ New Event
+                    </button>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon-wrap">🗓️</div>
+                        <div class="stat-info">
+                            <div class="stat-num" id="stat-total">—</div>
+                            <div class="stat-label">Total Events</div>
+                        </div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon-wrap">⏰</div>
+                        <div class="stat-info">
+                            <div class="stat-num" id="stat-upcoming">—</div>
+                            <div class="stat-label">Upcoming Events</div>
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon-wrap">👥</div>
+                        <div class="stat-info">
+                            <div class="stat-num" id="stat-guests">—</div>
+                            <div class="stat-label">Total Guests</div>
+                        </div>
+                    </div>
+                    <div class="stat-card info">
+                        <div class="stat-icon-wrap">✅</div>
+                        <div class="stat-info">
+                            <div class="stat-num" id="stat-completed">—</div>
+                            <div class="stat-label">Completed Events</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two-column grid -->
+                <div class="grid-2">
+                    <!-- Upcoming Events Panel -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">📅 Upcoming Events</span>
+                            <button class="btn btn-ghost btn-sm" onclick="showSection('events-section')">View
+                                All</button>
+                        </div>
+                        <div class="panel-body" id="upcoming-list">
+                            <div class="empty-state">
+                                <div class="empty-icon">🗓️</div>
+                                <h3>No events yet</h3>
+                                <p>Create your first event to get started!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Notifications -->
+                    <div class="panel">
+                        <div class="panel-header">
+                            <span class="panel-title">🔔 Notifications</span>
+                            <button class="btn btn-ghost btn-sm" onclick="markAllRead()">Mark all read</button>
+                        </div>
+                        <div id="notif-list">
+                            <div class="empty-state">
+                                <div class="empty-icon">🔔</div>
+                                <h3>All caught up!</h3>
+                                <p>Notifications will appear here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Events Section ────────────────────────────────── -->
+            <div id="events-section" class="hidden">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">My Events</h1>
+                        <p class="page-subtitle">Manage all your events in one place</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openCreateEvent()">➕ New Event</button>
+                </div>
+                <div id="events-list-container">
+                    <div class="empty-state">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Notifications Section ──────────────────────────── -->
+            <div id="notifications-section" class="hidden">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">🔔 All Notifications</h1>
+                        <p class="page-subtitle">Your activity feed</p>
+                    </div>
+                    <button class="btn btn-ghost btn-sm" onclick="markAllRead()">Mark all as read</button>
+                </div>
+                <div class="panel" id="all-notifs-panel">
+                    <div class="empty-state">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Export Section ──────────────────────────────────── -->
+            <div id="export-section" class="hidden">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">📊 Export to Excel</h1>
+                        <p class="page-subtitle">Download your data as .xlsx — SQLite database stays intact</p>
+                    </div>
+                </div>
+                <div class="alert alert-info" style="margin-bottom:1.5rem;">
+                    ℹ️ <strong>How it works:</strong> Data is always saved in the SQLite database. These buttons let you
+                    download an Excel copy (.xlsx) that opens in Microsoft Excel, Google Sheets, or LibreOffice Calc.
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1.25rem;">
+                    <div class="card" style="border-color:rgba(108,99,255,.4);">
+                        <div style="font-size:2.5rem;margin-bottom:1rem;">📁</div>
+                        <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:.5rem;">Full Data Export</h3>
+                        <p style="font-size:.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.25rem;">
+                            One file with <strong>5 sheets</strong>: Summary, Events, Guests, RSVPs &amp; Notifications.
+                        </p>
+                        <button class="btn btn-primary w-full" onclick="downloadExport('all','All_Data')">⬇️ Download
+                            Full Export</button>
+                    </div>
+                    <div class="card">
+                        <div style="font-size:2.5rem;margin-bottom:1rem;">🗓️</div>
+                        <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:.5rem;">Events Only</h3>
+                        <p style="font-size:.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.25rem;">
+                            All events with title, date, venue, category, capacity, status &amp; guest count.</p>
+                        <button class="btn btn-outline w-full" onclick="downloadExport('events','Events')">⬇️ Download
+                            Events</button>
+                    </div>
+                    <div class="card">
+                        <div style="font-size:2.5rem;margin-bottom:1rem;">👥</div>
+                        <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:.5rem;">Guest Lists</h3>
+                        <p style="font-size:.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.25rem;">
+                            All guests across events — name, email, phone, event &amp; status.</p>
+                        <button class="btn btn-outline w-full" onclick="downloadExport('guests','Guests')">⬇️ Download
+                            Guests</button>
+                    </div>
+                    <div class="card">
+                        <div style="font-size:2.5rem;margin-bottom:1rem;">📨</div>
+                        <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:.5rem;">RSVP Responses</h3>
+                        <p style="font-size:.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.25rem;">
+                            All RSVPs — guest name, email, event, response &amp; message.</p>
+                        <button class="btn btn-outline w-full" onclick="downloadExport('rsvps','RSVPs')">⬇️ Download
+                            RSVPs</button>
+                    </div>
+                </div>
+                <div class="card" style="margin-top:1.5rem;padding:1.5rem;">
+                    <h4 style="font-weight:700;margin-bottom:1rem;">📖 How to open the file</h4>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.75rem;">
+                        <div
+                            style="display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border);font-size:.85rem;">
+                            <span style="font-size:1.4rem;">📗</span>
+                            <div>
+                                <div style="font-weight:600;">Microsoft Excel</div>
+                                <div style="color:var(--text-muted);font-size:.76rem;">Double-click the .xlsx file</div>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border);font-size:.85rem;">
+                            <span style="font-size:1.4rem;">📊</span>
+                            <div>
+                                <div style="font-weight:600;">Google Sheets</div>
+                                <div style="color:var(--text-muted);font-size:.76rem;">File → Import → Upload</div>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border);font-size:.85rem;">
+                            <span style="font-size:1.4rem;">📋</span>
+                            <div>
+                                <div style="font-weight:600;">LibreOffice Calc</div>
+                                <div style="color:var(--text-muted);font-size:.76rem;">Open directly — fully compatible
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ── Create / Edit Event Modal ──────────────────────── -->
+    <div class="modal-overlay" id="event-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Create New Event</h2>
+                <button class="modal-close" onclick="closeModal('event-modal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="event-modal-alert"></div>
+                <form id="event-form" novalidate>
+                    <input type="hidden" id="event-id">
+                    <div class="form-group">
+                        <label class="form-label">Event Title *</label>
+                        <input type="text" id="ev-title" class="form-control"
+                            placeholder="e.g. Annual Tech Conference 2026" required>
+                        <div class="form-error" id="ev-title-err">Title is required.</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select id="ev-category" class="form-control">
+                                <option value="General">📅 General</option>
+                                <option value="Conference">🏛️ Conference</option>
+                                <option value="Wedding">💍 Wedding</option>
+                                <option value="Birthday">🎂 Birthday</option>
+                                <option value="Corporate">💼 Corporate</option>
+                                <option value="Concert">🎵 Concert</option>
+                                <option value="Party">🥳 Party</option>
+                                <option value="Workshop">🔧 Workshop</option>
+                                <option value="Sports">⚽ Sports</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select id="ev-status" class="form-control">
+                                <option value="upcoming">⏰ Upcoming</option>
+                                <option value="completed">✅ Completed</option>
+                                <option value="cancelled">❌ Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Event Date *</label>
+                            <input type="date" id="ev-date" class="form-control" required>
+                            <div class="form-error" id="ev-date-err">Date is required.</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Event Time</label>
+                            <input type="time" id="ev-time" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Venue / Location</label>
+                            <input type="text" id="ev-venue" class="form-control"
+                                placeholder="e.g. Convention Center, Delhi">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Capacity</label>
+                            <input type="number" id="ev-capacity" class="form-control" placeholder="0 = unlimited"
+                                min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea id="ev-description" class="form-control" placeholder="Describe your event…"
+                            rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cover Color</label>
+                        <div style="display:flex;gap:.75rem;flex-wrap:wrap;" id="color-picker">
+                            <button type="button" class="color-swatch active" data-color="#6c63ff"
+                                style="background:#6c63ff;"></button>
+                            <button type="button" class="color-swatch" data-color="#ec4899"
+                                style="background:#ec4899;"></button>
+                            <button type="button" class="color-swatch" data-color="#10b981"
+                                style="background:#10b981;"></button>
+                            <button type="button" class="color-swatch" data-color="#f59e0b"
+                                style="background:#f59e0b;"></button>
+                            <button type="button" class="color-swatch" data-color="#3b82f6"
+                                style="background:#3b82f6;"></button>
+                            <button type="button" class="color-swatch" data-color="#ef4444"
+                                style="background:#ef4444;"></button>
+                            <button type="button" class="color-swatch" data-color="#8b5cf6"
+                                style="background:#8b5cf6;"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('event-modal')">Cancel</button>
+                <button class="btn btn-primary" id="save-event-btn" onclick="saveEvent()">
+                    💾 Save Event
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Event Detail Modal ──────────────────────────────── -->
+    <div class="modal-overlay" id="detail-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="detail-title">Event Details</h2>
+                <button class="modal-close" onclick="closeModal('detail-modal')">✕</button>
+            </div>
+            <div class="modal-body" id="detail-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeModal('detail-modal')">Close</button>
+                <button class="btn btn-primary" id="edit-from-detail-btn" onclick="editFromDetail()">✏️ Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="frontend/js/api.js"></script>
+    <!-- Socket.io from backend -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // ── Color swatch style ────────────────────────────────────
+        document.head.insertAdjacentHTML('beforeend', `
+<style>
+.color-swatch {
+  width:32px;height:32px;border-radius:50%;border:3px solid transparent;
+  cursor:pointer;transition:all .2s;outline:none;
+}
+.color-swatch.active, .color-swatch:hover {
+  border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px rgba(255,255,255,.2);
+}
+</style>`);
+
+        let selectedColor = '#6c63ff';
+        let currentDetailId = null;
+        let dashboardData = null;
+        let activeSection = 'overview-section';
+        const SECTIONS = ['overview-section', 'events-section', 'notifications-section', 'export-section'];
+
+        // ── Init ──────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (Auth.redirectIfNotLoggedIn('login.html')) return;
+            initNavbar();
+            initMobileSidebar();
+            initColorPicker();
+            await loadDashboard();
+            initSocket();
+        });
+
+        // ── Socket.io Real-Time ───────────────────────────────────
+        function initSocket() {
+            try {
+                const socket = io();
+                const user = Auth.getUser();
+                if (user) socket.emit('join:user', user.id);
+
+                socket.on('event:created', ({ title }) => { Toast.info(`New event created: ${title} 🎊`); loadDashboard(); });
+                socket.on('event:updated', () => { loadDashboard(); });
+                socket.on('event:deleted', () => { loadDashboard(); });
+                socket.on('rsvp:received', ({ guestName }) => { Toast.success(`${guestName} has RSVP'd! ✅`); loadDashboard(); });
+                socket.on('guest:added', ({ guestName }) => { Toast.info(`Guest ${guestName} added!`); });
+                socket.on('connect', () => console.log('🔌 Real-time connected'));
+                socket.on('disconnect', () => console.log('❌ Real-time disconnected'));
+            } catch (e) { console.warn('Socket.io not available:', e.message); }
+        }
+
+        // ── Load Dashboard ────────────────────────────────────────
+        async function loadDashboard() {
+            const res = await API.getDashboard();
+            if (!res.success) { Toast.error(res.message); return; }
+            dashboardData = res;
+
+            const { user, stats, events, notifications, unreadCount } = res;
+
+            // User info
+            const firstName = user.name.split(' ')[0];
+            document.getElementById('welcome-msg').textContent = `Welcome back, ${firstName}! 👋`;
+            document.getElementById('welcome-date').textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('nav-name').textContent = user.name;
+            document.getElementById('nav-avatar').textContent = user.avatar || firstName[0].toUpperCase();
+            document.getElementById('sidebar-avatar').textContent = user.avatar || firstName[0].toUpperCase();
+            document.getElementById('sidebar-name').textContent = user.name;
+            document.getElementById('sidebar-email').textContent = user.email;
+
+            // Stats
+            document.getElementById('stat-total').textContent = stats.totalEvents;
+            document.getElementById('stat-upcoming').textContent = stats.upcomingEvents;
+            document.getElementById('stat-guests').textContent = stats.totalGuests;
+            document.getElementById('stat-completed').textContent = stats.completedEvents;
+
+            // Notif badge
+            const badge = document.getElementById('notif-count');
+            const sidebarBadge = document.getElementById('sidebar-notif-badge');
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount; badge.classList.remove('hidden');
+                sidebarBadge.textContent = unreadCount; sidebarBadge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden'); sidebarBadge.classList.add('hidden');
+            }
+
+            // Upcoming events
+            renderUpcomingEvents(events);
+
+            // Notifications
+            renderNotifications(notifications, 'notif-list');
+
+            // Also refresh events section if open
+            if (activeSection === 'events-section') loadAllEvents();
+            if (activeSection === 'notifications-section') loadAllNotifs();
+        }
+
+        // ── Render Upcoming Events ────────────────────────────────
+        function renderUpcomingEvents(events) {
+            const container = document.getElementById('upcoming-list');
+            if (!events || events.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-icon">🗓️</div><h3>No events yet</h3><p>Create your first event!</p>
+    <button class="btn btn-primary btn-sm mt-2" onclick="openCreateEvent()">➕ Create Event</button></div>`;
+                return;
+            }
+            container.innerHTML = `<div class="event-list">${events.map(ev => `
+    <div class="event-list-item">
+      <div class="event-color-dot" style="background:${ev.cover_color}20;">${getCategoryEmoji(ev.category)}</div>
+      <div class="event-list-info">
+        <div class="event-list-title">${ev.title}</div>
+        <div class="event-list-meta">📅 ${formatDate(ev.event_date)} · 👥 ${ev.guest_count} guests</div>
+      </div>
+      <span class="event-badge badge-${ev.status}">${ev.status}</span>
+      <div class="event-list-actions">
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="viewEvent(${ev.id})" title="View">👁️</button>
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="editEvent(${ev.id})" title="Edit">✏️</button>
+      </div>
+    </div>`).join('')}</div>`;
+        }
+
+        // ── Render Notifications ──────────────────────────────────
+        function renderNotifications(notifs, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            if (!notifs || notifs.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-icon">🔔</div><h3>All caught up!</h3></div>`;
+                return;
+            }
+            const icons = { success: '✅', info: 'ℹ️', warning: '⚠️', error: '❌' };
+            container.innerHTML = notifs.map(n => `
+    <div class="notif-item ${n.is_read ? '' : 'unread'}">
+      <span class="notif-icon">${icons[n.type] || '🔔'}</span>
+      <div class="notif-text"><b>${n.message}</b></div>
+      <span class="notif-time">${timeAgo(n.created_at)}</span>
+    </div>`).join('');
+        }
+
+        // ── Load All Events ───────────────────────────────────────
+        async function loadAllEvents() {
+            const container = document.getElementById('events-list-container');
+            container.innerHTML = `<div class="empty-state"><div class="spinner"></div></div>`;
+            const res = await API.getEvents();
+            if (!res.success) { container.innerHTML = `<div class="alert alert-danger">${res.message}</div>`; return; }
+            const events = res.events;
+            if (!events.length) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-icon">🗓️</div><h3>No events yet</h3><p>Get started by creating your first event!</p>
+    <button class="btn btn-primary mt-2" onclick="openCreateEvent()">➕ Create Event</button></div>`;
+                return;
+            }
+            container.innerHTML = `<div class="event-list">${events.map(ev => `
+    <div class="event-list-item">
+      <div class="event-color-dot" style="background:${ev.cover_color}20;">${getCategoryEmoji(ev.category)}</div>
+      <div class="event-list-info">
+        <div class="event-list-title">${ev.title}</div>
+        <div class="event-list-meta">
+          📅 ${formatDate(ev.event_date)}${ev.event_time ? ' · 🕐 ' + ev.event_time : ''}
+          ${ev.venue ? ' · 📍 ' + ev.venue : ''}
+          · 👥 ${ev.guest_count} guests
+        </div>
+      </div>
+      <span class="event-badge badge-${ev.status}">${ev.status}</span>
+      <div class="event-list-actions">
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="viewEvent(${ev.id})" title="View Details">👁️</button>
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="editEvent(${ev.id})" title="Edit">✏️</button>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteEvent(${ev.id}, '${ev.title.replace(/'/g, "\\'")}')">🗑️</button>
+      </div>
+    </div>`).join('')}</div>`;
+        }
+
+        // ── Load All Notifications ────────────────────────────────
+        async function loadAllNotifs() {
+            const panel = document.getElementById('all-notifs-panel');
+            panel.innerHTML = `<div class="empty-state"><div class="spinner"></div></div>`;
+            const res = await API.getNotifications();
+            if (!res.success) return;
+            if (!res.notifications.length) {
+                panel.innerHTML = `<div class="empty-state"><div class="empty-icon">🔔</div><h3>No notifications</h3></div>`;
+                return;
+            }
+            const icons = { success: '✅', info: 'ℹ️', warning: '⚠️', error: '❌' };
+            panel.innerHTML = res.notifications.map(n => `
+    <div class="notif-item ${n.is_read ? '' : 'unread'}">
+      <span class="notif-icon">${icons[n.type] || '🔔'}</span>
+      <div class="notif-text"><b>${n.message}</b></div>
+      <span class="notif-time">${timeAgo(n.created_at)}</span>
+    </div>`).join('');
+        }
+
+        // ── Section Switching ─────────────────────────────────────
+        function showSection(sectionId) {
+            SECTIONS.forEach(s => document.getElementById(s).classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+            activeSection = sectionId;
+            if (sectionId === 'events-section') loadAllEvents();
+            if (sectionId === 'notifications-section') loadAllNotifs();
+            // Close mobile sidebar
+            document.querySelector('.sidebar')?.classList.remove('open');
+            document.getElementById('sidebar-overlay')?.classList.remove('active');
+        }
+
+        // ── View Event ────────────────────────────────────────────
+        async function viewEvent(id) {
+            currentDetailId = id;
+            const res = await API.getEvent(id);
+            if (!res.success) { Toast.error(res.message); return; }
+            const ev = res.event;
+            document.getElementById('detail-title').textContent = ev.title;
+            document.getElementById('detail-body').innerHTML = `
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding:1.25rem;border-radius:var(--radius-md);background:${ev.cover_color}15;border:1px solid ${ev.cover_color}30;">
+      <div style="font-size:2.5rem;">${getCategoryEmoji(ev.category)}</div>
+      <div>
+        <div style="font-size:1.2rem;font-weight:700;">${ev.title}</div>
+        <div style="font-size:.82rem;color:var(--text-muted);">${ev.category} · <span class="event-badge badge-${ev.status}" style="display:inline-flex;">${ev.status}</span></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+      <div style="padding:.85rem;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border);">
+        <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:1px;">Date & Time</div>
+        <div style="font-weight:600;">📅 ${formatDate(ev.event_date)}</div>
+        ${ev.event_time ? `<div style="color:var(--text-secondary);font-size:.88rem;">🕐 ${ev.event_time}</div>` : ''}
+      </div>
+      <div style="padding:.85rem;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border);">
+        <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:1px;">Venue</div>
+        <div style="font-weight:600;">📍 ${ev.venue || 'Not specified'}</div>
+        ${ev.capacity ? `<div style="color:var(--text-secondary);font-size:.88rem;">👥 Capacity: ${ev.capacity}</div>` : ''}
+      </div>
+    </div>
+    ${ev.description ? `<div style="margin-bottom:1.5rem;"><div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:1px;">Description</div><p style="color:var(--text-secondary);line-height:1.7;">${ev.description}</p></div>` : ''}
+    <div style="margin-bottom:1.5rem;">
+      <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:1px;">Guests (${ev.guests?.length || 0})</div>
+      ${ev.guests?.length ? ev.guests.map(g => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem .85rem;background:var(--bg-card);border-radius:var(--radius-md);margin-bottom:.4rem;border:1px solid var(--border);">
+          <div><div style="font-weight:600;font-size:.88rem;">${g.name}</div><div style="color:var(--text-muted);font-size:.76rem;">${g.email}</div></div>
+          <button class="btn btn-danger btn-sm" onclick="removeGuest(${ev.id},${g.id})">Remove</button>
+        </div>`).join('') : '<div style="color:var(--text-muted);font-size:.88rem;">No guests added yet.</div>'}
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:1rem;">
+      <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:1px;">Add Guest</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem;">
+        <input id="g-name" class="form-control" placeholder="Full Name">
+        <input id="g-email" class="form-control" placeholder="Email Address" type="email">
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="addGuest(${ev.id})">➕ Add Guest</button>
+    </div>`;
+            openModal('detail-modal');
+        }
+
+        async function addGuest(eventId) {
+            const name = document.getElementById('g-name').value.trim();
+            const email = document.getElementById('g-email').value.trim();
+            if (!name || !email) { Toast.warning('Enter guest name and email.'); return; }
+            const res = await API.addGuest(eventId, { name, email });
+            if (res.success) { Toast.success('Guest added! ✅'); viewEvent(eventId); loadDashboard(); }
+            else Toast.error(res.message);
+        }
+
+        async function removeGuest(eventId, guestId) {
+            if (!confirm('Remove this guest?')) return;
+            const res = await API.removeGuest(eventId, guestId);
+            if (res.success) { Toast.success('Guest removed.'); viewEvent(eventId); loadDashboard(); }
+            else Toast.error(res.message);
+        }
+
+        function editFromDetail() {
+            closeModal('detail-modal');
+            if (currentDetailId) editEvent(currentDetailId);
+        }
+
+        // ── Create / Edit Event ───────────────────────────────────
+        function openCreateEvent() {
+            document.getElementById('modal-title').textContent = '✨ Create New Event';
+            document.getElementById('event-id').value = '';
+            document.getElementById('event-form').reset();
+            document.getElementById('ev-date').value = new Date().toISOString().split('T')[0];
+            selectedColor = '#6c63ff';
+            initColorPicker();
+            document.getElementById('event-modal-alert').innerHTML = '';
+            document.getElementById('save-event-btn').textContent = '💾 Save Event';
+            openModal('event-modal');
+        }
+
+        async function editEvent(id) {
+            const res = await API.getEvent(id);
+            if (!res.success) { Toast.error(res.message); return; }
+            const ev = res.event;
+            document.getElementById('modal-title').textContent = '✏️ Edit Event';
+            document.getElementById('event-id').value = ev.id;
+            document.getElementById('ev-title').value = ev.title;
+            document.getElementById('ev-category').value = ev.category;
+            document.getElementById('ev-status').value = ev.status;
+            document.getElementById('ev-date').value = ev.event_date;
+            document.getElementById('ev-time').value = ev.event_time || '';
+            document.getElementById('ev-venue').value = ev.venue || '';
+            document.getElementById('ev-capacity').value = ev.capacity || '';
+            document.getElementById('ev-description').value = ev.description || '';
+            selectedColor = ev.cover_color;
+            initColorPicker();
+            document.getElementById('event-modal-alert').innerHTML = '';
+            document.getElementById('save-event-btn').textContent = '💾 Update Event';
+            openModal('event-modal');
+        }
+
+        async function saveEvent() {
+            const id = document.getElementById('event-id').value;
+            const title = document.getElementById('ev-title').value.trim();
+            const date = document.getElementById('ev-date').value;
+            const errEl = document.getElementById('ev-title-err');
+            const errDate = document.getElementById('ev-date-err');
+
+            let valid = true;
+            if (!title) { errEl.classList.add('visible'); valid = false; } else errEl.classList.remove('visible');
+            if (!date) { errDate.classList.add('visible'); valid = false; } else errDate.classList.remove('visible');
+            if (!valid) return;
+
+            const payload = {
+                title, event_date: date,
+                category: document.getElementById('ev-category').value,
+                status: document.getElementById('ev-status').value,
+                event_time: document.getElementById('ev-time').value,
+                venue: document.getElementById('ev-venue').value.trim(),
+                capacity: parseInt(document.getElementById('ev-capacity').value) || 0,
+                description: document.getElementById('ev-description').value.trim(),
+                cover_color: selectedColor,
+            };
+
+            const btn = document.getElementById('save-event-btn');
+            const orig = btn.textContent;
+            btn.innerHTML = '<span class="spinner"></span> Saving…';
+            btn.classList.add('btn-loading');
+
+            const res = id ? await API.updateEvent(id, payload) : await API.createEvent(payload);
+
+            btn.textContent = orig;
+            btn.classList.remove('btn-loading');
+
+            if (res.success) {
+                Toast.success(res.message); closeModal('event-modal'); loadDashboard();
+                if (activeSection === 'events-section') loadAllEvents();
+            } else {
+                document.getElementById('event-modal-alert').innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+            }
+        }
+
+        async function deleteEvent(id, title) {
+            if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+            const res = await API.deleteEvent(id);
+            if (res.success) { Toast.success('Event deleted.'); loadDashboard(); loadAllEvents(); }
+            else Toast.error(res.message);
+        }
+
+        // ── Color Picker ──────────────────────────────────────────
+        function initColorPicker() {
+            document.querySelectorAll('.color-swatch').forEach(sw => {
+                sw.classList.toggle('active', sw.dataset.color === selectedColor);
+                sw.onclick = () => {
+                    selectedColor = sw.dataset.color;
+                    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                    sw.classList.add('active');
+                };
+            });
+        }
+
+        // ── Mark all read ─────────────────────────────────────────
+        async function markAllRead() {
+            await API.markNotifsRead();
+            Toast.success('All notifications marked as read.');
+            loadDashboard();
+            if (activeSection === 'notifications-section') loadAllNotifs();
+        }
+
+        // ── Modal helpers ─────────────────────────────────────────
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
+        document.querySelectorAll('.modal-overlay').forEach(mo => {
+            mo.addEventListener('click', e => { if (e.target === mo) closeModal(mo.id); });
+        });
+
+        // ── Excel Export Download ──────────────────────────────────
+        async function downloadExport(type, label) {
+            const token = Auth.getToken();
+            if (!token) { Toast.error('Please login first.'); return; }
+            Toast.info(`Preparing ${label} export…`);
+            try {
+                const res = await fetch(`/api/export/${type}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({ message: 'Export failed.' }));
+                    Toast.error(err.message || 'Export failed.'); return;
+                }
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const disp = res.headers.get('Content-Disposition') || '';
+                const match = disp.match(/filename="(.+)"/);
+                a.href = url;
+                a.download = match ? match[1] : `${label}_${new Date().toISOString().split('T')[0]}.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                Toast.success(`${label} exported! Check your Downloads folder. 📊`);
+            } catch (e) {
+                Toast.error('Download failed. Make sure the server is running.');
+            }
+        }
+
+        // ── Logout ────────────────────────────────────────────────
+        function logout() {
+            Auth.clearSession();
+            Toast.info('Logged out. Goodbye! 👋');
+            setTimeout(() => window.location.href = 'index.html', 500);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Create and manage your events on EventPlanner 360. Schedule events, invite guests, and track RSVPs in real time.">
+    <title>Manage Events — EventPlanner 360</title>
+    <link rel="stylesheet" href="frontend/css/main.css">
+    <link rel="icon" type="image/x-icon" href="frontend/assets/logo.jpg">
+</head>
+
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ── Navbar ─────────────────────────────────────────── -->
+    <nav class="navbar" id="navbar">
+        <a href="index.html" class="nav-brand">
+            <div class="brand-icon">🎯</div>EventPlanner 360
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="event.html" class="nav-link active">Events</a></li>
+            <li><a href="about.html" class="nav-link">About</a></li>
+        </ul>
+        <div class="nav-actions" id="nav-actions">
+            <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+            <a href="login.html#signup" class="btn btn-primary btn-sm">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- ── Page Hero ──────────────────────────────────────── -->
+    <section style="padding:7rem 2rem 3rem;background:var(--gradient-hero);position:relative;overflow:hidden;">
+        <div class="orb orb-1" style="opacity:.15;width:300px;height:300px;top:-80px;right:100px;"></div>
+        <div style="max-width:760px;margin:0 auto;text-align:center;position:relative;z-index:2;">
+            <div class="section-tag" style="margin-bottom:1rem;animation:fade-up .5s ease both;">🗓️ Event Management
+            </div>
+            <h1 class="hero-title" style="animation:fade-up .5s ease .1s both;">Create & Manage Your <span
+                    class="gradient-text">Events</span></h1>
+            <p class="hero-subtitle" style="animation:fade-up .5s ease .2s both;">Schedule events, add guests, collect
+                RSVPs, and track everything in real time from your dashboard.</p>
+            <div style="animation:fade-up .5s ease .3s both;">
+                <a href="dashboard.html" class="btn btn-primary btn-lg" id="create-btn">🚀 Go to Dashboard</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Quick Create Form (for logged-in users) ────────── -->
+    <section class="section" id="create-section">
+        <div class="section-inner" style="max-width:800px;">
+            <div class="section-header">
+                <div class="section-tag">Quick Create</div>
+                <h2 class="section-title fade-in-up">Create an Event <span class="accent">Right Here</span></h2>
+            </div>
+
+            <div class="card fade-in-up" style="padding:2rem;" id="event-form-card">
+                <div id="page-alert"></div>
+                <div id="auth-warning" class="alert alert-warning" style="display:none;">
+                    ⚠️ You need to be <a href="login.html" style="color:#fcd34d;font-weight:700;">logged in</a> to
+                    create events. <a href="login.html#signup" style="color:#fcd34d;font-weight:700;">Sign up free →</a>
+                </div>
+
+                <form id="event-form" novalidate>
+                    <div class="form-group">
+                        <label class="form-label">Event Title *</label>
+                        <input type="text" id="ev-title" class="form-control" placeholder="e.g. Annual Team Meetup 2026"
+                            required>
+                        <div class="form-error" id="title-err">Event title is required.</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select id="ev-category" class="form-control">
+                                <option value="General">📅 General</option>
+                                <option value="Conference">🏛️ Conference</option>
+                                <option value="Wedding">💍 Wedding</option>
+                                <option value="Birthday">🎂 Birthday</option>
+                                <option value="Corporate">💼 Corporate</option>
+                                <option value="Concert">🎵 Concert</option>
+                                <option value="Party">🥳 Party</option>
+                                <option value="Workshop">🔧 Workshop</option>
+                                <option value="Sports">⚽ Sports</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Event Date *</label>
+                            <input type="date" id="ev-date" class="form-control" required>
+                            <div class="form-error" id="date-err">Event date is required.</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Time</label>
+                            <input type="time" id="ev-time" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Capacity (0 = unlimited)</label>
+                            <input type="number" id="ev-capacity" class="form-control" placeholder="e.g. 200" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Venue / Location</label>
+                        <div class="form-control-icon">
+                            <span class="icon">📍</span>
+                            <input type="text" id="ev-venue" class="form-control"
+                                placeholder="e.g. Grand Hyatt, Mumbai">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea id="ev-description" class="form-control"
+                            placeholder="Describe your event — agenda, dress code, special notes…" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cover Color</label>
+                        <div style="display:flex;gap:.75rem;flex-wrap:wrap;" id="color-picker">
+                            <button type="button" class="color-swatch active" data-color="#6c63ff"
+                                style="background:#6c63ff;"></button>
+                            <button type="button" class="color-swatch" data-color="#ec4899"
+                                style="background:#ec4899;"></button>
+                            <button type="button" class="color-swatch" data-color="#10b981"
+                                style="background:#10b981;"></button>
+                            <button type="button" class="color-swatch" data-color="#f59e0b"
+                                style="background:#f59e0b;"></button>
+                            <button type="button" class="color-swatch" data-color="#3b82f6"
+                                style="background:#3b82f6;"></button>
+                            <button type="button" class="color-swatch" data-color="#ef4444"
+                                style="background:#ef4444;"></button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg w-full" id="submit-btn">
+                        🎉 Create Event
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Recent Events Display ──────────────────────────── -->
+    <section class="section" style="background:rgba(108,99,255,.03);">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-tag">Your Events</div>
+                <h2 class="section-title fade-in-up">Recently Created <span class="accent">Events</span></h2>
+            </div>
+            <div id="recent-events-list">
+                <div class="empty-state">
+                    <div class="empty-icon">🗓️</div>
+                    <h3>Loading events…</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Event Categories Info ─────────────────────────── -->
+    <section class="section">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-tag">Event Types</div>
+                <h2 class="section-title fade-in-up">Plan Any Kind of <span class="accent">Event</span></h2>
+            </div>
+            <div class="features-grid">
+                <div class="card fade-in-up">
+                    <div class="card-icon">🏛️</div>
+                    <h3 class="card-title">Conferences</h3>
+                    <p class="card-desc">Organize large-scale professional conferences with speaker management and
+                        session tracking.</p>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon">💍</div>
+                    <h3 class="card-title">Weddings</h3>
+                    <p class="card-desc">Plan your perfect wedding day with RSVP tracking, seating management, and
+                        vendor lists.</p>
+                </div>
+                <div class="card fade-in-up">
+                    <div class="card-icon">🎂</div>
+                    <h3 class="card-title">Birthdays & Parties</h3>
+                    <p class="card-desc">Make celebrations memorable. Track who's coming, manage invitations, and
+                        collect RSVPs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-bottom" style="border-top:none;padding-top:0;">
+                <span>© 2026 EventPlanner 360 · Built by Ayusman Samantaray</span>
+                <a href="index.html" class="btn btn-ghost btn-sm">← Back to Home</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="frontend/js/api.js"></script>
+    <script>
+        document.head.insertAdjacentHTML('beforeend', `
+<style>
+.color-swatch{width:32px;height:32px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .2s;outline:none;}
+.color-swatch.active,.color-swatch:hover{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px rgba(255,255,255,.2);}
+</style>`);
+
+        let selectedColor = '#6c63ff';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavbar();
+            initScrollAnimations();
+
+            // Set today's date
+            document.getElementById('ev-date').value = new Date().toISOString().split('T')[0];
+
+            // Update nav
+            const user = Auth.getUser();
+            const navActions = document.getElementById('nav-actions');
+            if (user && Auth.isLoggedIn()) {
+                navActions.innerHTML = `
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">📊 Dashboard</a>
+      <button class="btn btn-outline btn-sm" onclick="Auth.clearSession();location.href='index.html'">Logout</button>`;
+                loadRecentEvents();
+            } else {
+                document.getElementById('auth-warning').style.display = 'flex';
+                document.getElementById('event-form').querySelectorAll('input,select,textarea,button[type=submit]').forEach(el => el.disabled = true);
+                loadRecentEventsPublic();
+            }
+
+            // Color picker
+            document.querySelectorAll('.color-swatch').forEach(sw => {
+                sw.addEventListener('click', () => {
+                    selectedColor = sw.dataset.color;
+                    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+                    sw.classList.add('active');
+                });
+            });
+        });
+
+        async function loadRecentEvents() {
+            const container = document.getElementById('recent-events-list');
+            const res = await API.getEvents();
+            if (!res.success || !res.events.length) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-icon">🗓️</div><h3>No events yet</h3><p>Create your first event above!</p></div>`;
+                return;
+            }
+            container.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+    ${res.events.slice(0, 6).map(ev => `
+    <div class="event-card">
+      <div class="event-card-header" style="background:${ev.cover_color}20;">${getCategoryEmoji(ev.category)}</div>
+      <div class="event-card-body">
+        <div class="event-card-title">${ev.title}</div>
+        <div class="event-meta">
+          <div class="event-meta-item"><span>📅</span><span>${formatDate(ev.event_date)}</span></div>
+          ${ev.venue ? `<div class="event-meta-item"><span>📍</span><span>${ev.venue}</span></div>` : ''}
+          <div class="event-meta-item"><span>👥</span><span>${ev.guest_count || 0} guests</span></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="event-badge badge-${ev.status}">${ev.status}</span>
+          <a href="dashboard.html" class="btn btn-primary btn-sm">Manage →</a>
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+        }
+
+        function loadRecentEventsPublic() {
+            document.getElementById('recent-events-list').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">🔐</div>
+      <h3>Login to see your events</h3>
+      <p>Create an account and start planning right away!</p>
+      <a href="login.html#signup" class="btn btn-primary mt-2">Sign Up Free →</a>
+    </div>`;
+        }
+
+        // ── Form Submit ───────────────────────────────────────────
+        document.getElementById('event-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!Auth.isLoggedIn()) { Toast.warning('Please login to create events.'); return; }
+
+            const title = document.getElementById('ev-title').value.trim();
+            const date = document.getElementById('ev-date').value;
+            let valid = true;
+
+            if (!title) { document.getElementById('title-err').classList.add('visible'); valid = false; }
+            else document.getElementById('title-err').classList.remove('visible');
+            if (!date) { document.getElementById('date-err').classList.add('visible'); valid = false; }
+            else document.getElementById('date-err').classList.remove('visible');
+            if (!valid) return;
+
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = '<span class="spinner"></span> Creating…';
+            btn.classList.add('btn-loading');
+
+            const res = await API.createEvent({
+                title,
+                event_date: date,
+                category: document.getElementById('ev-category').value,
+                event_time: document.getElementById('ev-time').value,
+                capacity: parseInt(document.getElementById('ev-capacity').value) || 0,
+                venue: document.getElementById('ev-venue').value.trim(),
+                description: document.getElementById('ev-description').value.trim(),
+                cover_color: selectedColor,
+            });
+
+            btn.textContent = '🎉 Create Event';
+            btn.classList.remove('btn-loading');
+
+            if (res.success) {
+                Toast.success(`"${title}" created successfully! 🎊`);
+                document.getElementById('event-form').reset();
+                document.getElementById('ev-date').value = new Date().toISOString().split('T')[0];
+                loadRecentEvents();
+            } else {
+                document.getElementById('page-alert').innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+            }
+        });
+    </script>
+</body>
+
+</html>

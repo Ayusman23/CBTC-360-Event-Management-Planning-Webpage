@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Scheduling - EventPlanner360</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/3.110.1/polyfill.min.js?features=default"></script>
+
+    <style>
+
+  body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #0c0000;
+            background-image: url('ten.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header h1 {
+    color: #f3fafa;
+    margin-bottom: 10px;
+    font-size: 60px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header p {
+    color: #011a19;
+    font-size: 20px;
+}
+
+
+@keyframes revealText {
+    0% {
+        opacity: 0; /* Start with full transparency */
+        transform: translateY(20px); /* Optional: Start slightly below its position */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Optional: Return to original position */
+    }
+}
+
+#venueSection {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: transparent;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #ffffff;
+    font-size: 20px !important;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#venueForm {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#venueMessage {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+#venueMessage.success {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+#venueMessage.error {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+/* CSS for Back Button */
+.back-button {
+    background-color: #007bff; /* Primary blue background */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: #ffffff; /* White text on hover */
+}
+
+.back-button:focus {
+    outline: none;
+}
+
+.back-button:active {
+    transform: translateY(1px); /* Add a slight downward movement on click */
+}
+
+#submittedVenuesSection {
+    max-width: 600px;
+    margin: 20px auto; /* Add margin for spacing */
+    background-color: #fff; /* White background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#submittedVenuesSection h2 {
+    color: #1e8e8c;
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.submitted-venue {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.submitted-venue:last-child {
+    border-bottom: none; /* Remove border from last child */
+}
+
+.submitted-venue h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.submitted-venue p {
+    margin-bottom: 5px;
+}
+
+#showInputsButton {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#showInputsButton:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* 
+ * Always set the map height explicitly to define the size of the div element 
+ * that contains the map. 
+ */ 
+ #map { 
+  height: 100%; 
+} 
+
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Venue Selection and Logistics Planning</h1>
+        <!-- Optionally, you can keep the header consistent across all pages -->
+        <p><b>An all-in-one event management platform enabling users to schedule events efficiently.</b></p>
+    </header>
+
+    <!-- Your Venue Selection and Logistics Planning from index.html -->
+    <section id="venueSection">
+        <h2>Venue Selection and Logistics Planning</h2>
+        <form id="venueForm">
+            <label for="venueName"><b>Venue Name:</label>
+            <input type="text" id="venueName" name="venueName" required>
+            <label for="location">Location:</label>
+    <div id="map"></div>
+            <input type="text" id="location" name="location" required>
+            <label for="capacity">Capacity:</label>
+            <input type="number" id="capacity" name="capacity" min="1" required>
+            <label for="logistics">Logistics Requirements:</label>
+            <textarea id="logistics" name="logistics" rows="4" required></textarea>
+            <button type="submit" class="button">Select Venue</b></button>
+        </form>
+        <div id="venueMessage"></div>
+        <button id="backButton" class="button back-button">← Back to Home</button>
+    </section>
+
+    <section id="submittedVenuesSection">
+        <h2>Submitted Venues</h2>
+        <div id="submittedVenuesContainer"></div>
+        <button id="showInputsButton" class="button">Show Submitted Venues</button>
+    </section>
+    
+
+    <!-- Include scripts if necessary -->
+
+
+    <script>
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const venueForm = document.getElementById('venueForm');
+    const venueMessage = document.getElementById('venueMessage');
+    const showInputsButton = document.getElementById('showInputsButton'); // New button for showing inputs
+
+    // Array to store submitted venue data
+    let submittedVenues = [];
+
+    venueForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Fetch form data
+        const venueName = document.getElementById('venueName').value.trim();
+        const location = document.getElementById('location').value.trim();
+        const capacity = parseInt(document.getElementById('capacity').value);
+        const logistics = document.getElementById('logistics').value.trim();
+        const backButton = document.getElementById('backButton');
+
+        // Validate form fields
+        if (venueName === '' || location === '' || isNaN(capacity) || capacity < 1 || logistics === '') {
+            displayMessage('Please fill out all fields correctly.', 'error');
+            return;
+        }
+
+        // Store submitted venue data
+        submittedVenues.push({
+            venueName: venueName,
+            location: location,
+            capacity: capacity,
+            logistics: logistics
+        });
+
+        // Simulate an asynchronous operation (e.g., sending data to a server)
+        // Here, we'll simulate a delay using setTimeout
+        setTimeout(function() {
+            // Clear form fields after successful submission
+            venueForm.reset();
+            displayMessage('Venue selected successfully!', 'success');
+        }, 1000); // Simulate delay of 1 second
+    });
+
+    // Function to display submitted venue data
+    showInputsButton.addEventListener('click', function() {
+        let html = '';
+        submittedVenues.forEach(function(venue, index) {
+            html += `
+                <div class="submitted-venue">
+                    <h3>Venue ${index + 1}</h3>
+                    <p><strong>Venue Name:</strong> ${venue.venueName}</p>
+                    <p><strong>Location:</strong> ${venue.location}</p>
+                    <p><strong>Capacity:</strong> ${venue.capacity}</p>
+                    <p><strong>Logistics:</strong> ${venue.logistics}</p>
+                </div>
+            `;
+        });
+        document.getElementById('submittedVenuesContainer').innerHTML = html;
+    });
+
+    function displayMessage(message, type) {
+        venueMessage.textContent = message;
+        venueMessage.className = type; // Use class for styling based on message type
+        setTimeout(function() {
+            venueMessage.textContent = '';
+            venueMessage.className = '';
+        }, 3000); // Clear message after 3 seconds
+    }
+});
+
+backButton.addEventListener('click', function() {
+                window.location.href = 'index1.html';
+            });
+
+            let map;
+      function initMap() {
+        const location = { lat: 12.97, lng: 77.59 };
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 12,
+          center: location,
+        });
+      }
+
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&v=weekly" defer></script>
+</body>
+</html>

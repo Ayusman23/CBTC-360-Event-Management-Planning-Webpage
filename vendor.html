@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vendor Management Webpage</title>
+    <style>
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4; /* Updated background color */
+    margin: 0;
+    padding: 20px; /* Increased padding */
+    color: #0c0000; /* Text color */
+    background-image: url('eight.jpg'); /* Path to your background image */
+    transition: background-image 0.5s ease-in-out; /* Add transition for background image */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+}
+
+/* Header styling */
+header {
+    background-color: transparent;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    transition: background-color 0.5s ease-in-out; /* Add transition for background color */
+}
+
+header h1 {
+    margin: 0;
+    color: #f5f9f9; /* Updated header h1 color */
+    font-size: 60px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Animation to reveal text */
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #fcffff; /* Updated header p color */
+}
+
+/* Animation keyframes */
+@keyframes revealText {
+    0% {
+        opacity: 0; /* Start with full transparency */
+        transform: translateY(20px); /* Optional: Start slightly below its position */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Optional: Return to original position */
+    }
+}
+
+
+/* Navigation bar styling */
+.navbar {
+    background-color: #007bff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+}
+
+.nav-list {
+    list-style-type: none;
+    display: flex;
+}
+
+.nav-list li {
+    margin-right: 1rem;
+}
+
+.nav-list li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+}
+
+.nav-list li a:hover {
+    background-color: #0056b3;
+}
+
+.rightnav {
+    display: flex;
+    align-items: center;
+}
+
+.rightnav input[type="text"] {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 0.5rem;
+}
+
+.rightnav .btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.rightnav .btn:hover {
+    background-color: #218838;
+}
+
+/* Main section styling */
+.box-main {
+    background-color: #fff;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 600px; /* Adjusted width */
+    margin: auto; /* Center align */
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.firstHalf {
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+    background-color: #f0f0f0;
+    
+}
+
+table th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    padding: 1rem 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.text-footer {
+    margin: 0;
+}
+
+/* CSS for Back Button */
+.back-button {
+    background-color: #007bff; /* Primary blue background */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: #ffffff; /* White text on hover */
+}
+
+.back-button:focus {
+    outline: none;
+}
+
+.back-button:active {
+    transform: translateY(1px); /* Add a slight downward movement on click */
+}
+
+
+    </style>
+</head>
+<body>
+    <nav class="navbar background">
+        <div class="logo">
+            <img src="logo.jpg" style="height: 30px;" alt="Logo">
+        </div>
+        <ul class="nav-list">
+            <li><a href="#vendors">Vendors</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#order-table">Orders</a></li>
+        </ul>
+        <div class="rightnav">
+            <input type="text" name="search" id="search" placeholder="Search...">
+            <button class="btn btn-sm" onclick="performSearch()">Search</button>
+        </div>
+        
+    </nav>
+
+    <header>
+        <h1>Vendor Management System</h1>
+        <p>Welcome to our vendor management system</p>
+    </header>
+
+   <section class="firstsection">
+    <div class="box-main">
+        <div class="firstHalf">
+            <h1 id="vendors">Vendors</h1>
+            <p>Manage your vendors and their products</p>
+            <table id="vendor-table">
+                <thead>
+                    <tr>
+                        <th>Vendor Name</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="vendor-data">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+            <form id="add-vendor-form">
+                <h2>Add Vendor</h2>
+                <input type="text" id="vendor-name" placeholder="Vendor Name" required>
+                <input type="text" id="product-name" placeholder="Product Name" required>
+                <input type="text" id="vendor-price" placeholder="Price" required>
+                <button type="submit">Add Vendor</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="secondsection">
+    <div class="box-main">
+        <div class="firstHalf">
+            <h1 id="products">Products</h1>
+            <p>Manage your products and their vendors</p>
+            <table id="product-table">
+                <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Vendor Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="product-data">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+            <form id="add-product-form">
+                <h2>Add Product</h2>
+                <input type="text" id="product-namee" placeholder="Product Name" required>
+                <input type="text" id="vendor-namee" placeholder="Vendor Name" required>
+                <input type="text" id="product-price" placeholder="Price" required>
+                <button type="submit">Add Product</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="paras">
+        <table id="order-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Vendor Name</th>
+                    <th>Product Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="order-data">
+                <!-- data will be populated here -->
+            </tbody>
+        </table>
+        
+</section>
+    </section>
+
+    <button id="backButton" class="button back-button">← Back to Home</button>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // Simulated data (replace with actual data retrieval)
+          const backButton = document.getElementById('backButton');
+          const vendorsData = [
+            { vendorName: 'Vendor A', productName: 'Product 1', price: '$100' },
+            { vendorName: 'Vendor B', productName: 'Product 2', price: '$150' },
+            // Add more vendor data as needed
+          ];
+      
+          const productsData = [
+            { productName: 'Product 1', vendorName: 'Vendor A', price: '$100' },
+            { productName: 'Product 2', vendorName: 'Vendor B', price: '$150' },
+            // Add more product data as needed
+          ];
+      
+          const ordersData = [
+            { orderId: '1', vendorName: 'Vendor A', productName: 'Product 1', status: 'Pending' },
+            { orderId: '2', vendorName: 'Vendor B', productName: 'Product 2', status: 'Shipped' },
+            // Add more order data as needed
+          ];
+      
+          // Function to populate vendor table
+          function populateVendorTable(data = vendorsData) {
+            const tableBody = document.getElementById('vendor-data');
+            let html = '';
+            data.forEach(function(vendor) {
+              html += `
+                <tr>
+                  <td>${vendor.vendorName}</td>
+                  <td>${vendor.productName}</td>
+                  <td>${vendor.price}</td>
+                  <td><button onclick="editVendor('${vendor.vendorName}', '${vendor.productName}', '${vendor.price}')">Edit</button></td>
+                </tr>
+              `;
+            });
+            tableBody.innerHTML = html;
+          }
+      
+          // Function to populate product table
+          function populateProductTable(data = productsData) {
+            const tableBody = document.getElementById('product-data');
+            let html = '';
+            data.forEach(function(product) {
+              html += `
+                <tr>
+                  <td>${product.productName}</td>
+                  <td>${product.vendorName}</td>
+                  <td>${product.price}</td>
+                  <td><button onclick="editProduct('${product.productName}', '${product.vendorName}', '${product.price}')">Edit</button></td>
+                </tr>
+              `;
+            });
+            tableBody.innerHTML = html;
+          }
+      
+          // Function to populate order table
+          function populateOrderTable(data = ordersData) {
+            const tableBody = document.getElementById('order-data');
+            let html = '';
+            data.forEach(function(order) {
+              html += `
+                <tr>
+                  <td>${order.orderId}</td>
+                  <td>${order.vendorName}</td>
+                  <td>${order.productName}</td>
+                  <td>${order.status}</td>
+                  <td><button onclick="editOrder('${order.orderId}')">Edit</button></td>
+                </tr>
+              `;
+            });
+            tableBody.innerHTML = html;
+          }
+      
+          // Initial population of order table
+          populateOrderTable();
+      
+          // Function to populate order table with new data
+          function populateOrderTableWithNewData() {
+            const tableBody = document.getElementById('order-data');
+            let html = '';
+            vendorsData.forEach(function(vendor) {
+              productsData.forEach(function(product) {
+                if (vendor.vendorName === product.vendorName && vendor.productName === product.productName) {
+                  html += `
+                    <tr>
+                      <td>${vendor.vendorName} - ${product.productName}</td>
+                      <td>${vendor.vendorName}</td>
+                      <td>${product.productName}</td>
+                      <td>Pending</td>
+                      <td><button onclick="editOrder('${vendor.vendorName} - ${product.productName}')">Edit</button></td>
+                    </tr>
+                  `;
+                }
+              });
+            });
+            tableBody.innerHTML = html;
+          }
+      
+          // Function to handle search functionality
+          const searchButton = document.querySelector('.btn');
+          searchButton.addEventListener('click', function() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+      
+            // Perform search/filter logic here
+            // Example: Filter vendorsData based on searchTerm
+            const filteredVendors = vendorsData.filter(function(vendor) {
+              return vendor.vendorName.toLowerCase().includes(searchTerm) ||
+                     vendor.productName.toLowerCase().includes(searchTerm) ||
+                     vendor.price.toLowerCase().includes(searchTerm);
+            });
+      
+            // Repopulate vendor table with filtered data
+            populateVendorTable(filteredVendors);
+          });
+      
+          // Function to handle form submission for adding new vendor
+let vendorOrderId = 1;
+const addVendorForm = document.getElementById('add-vendor-form');
+addVendorForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  const vendorName = document.getElementById('vendor-name').value;
+  const productName = document.getElementById('product-name').value;
+  const price = document.getElementById('vendor-price').value;
+
+  vendorsData.push({ vendorName, productName, price });
+  populateVendorTable();
+
+  // Add new order data
+  const newOrderId = `VEN-${vendorOrderId}`; // Generate a new order ID for the vendor
+  ordersData.push({ orderId: newOrderId, vendorName, productName, status: 'Pending' });
+  populateOrderTable();
+
+  addVendorForm.reset();
+  vendorOrderId++; // Increment the vendor order ID
+});
+
+// Function to handle form submission for adding new product
+let productOrderId = 1;
+const addProductForm = document.getElementById('add-product-form');
+addProductForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  const productName = document.getElementById('product-namee').value;
+  const vendorName = document.getElementById('vendor-namee').value;
+  const price = document.getElementById('product-price').value;
+
+  productsData.push({ productName, vendorName, price });
+  populateProductTable();
+
+  // Add new order data
+  const newOrderId = `PRO-${productOrderId}`; // Generate a new order ID for the product
+  ordersData.push({ orderId: newOrderId, vendorName, productName, status: 'Pending' });
+  populateOrderTable();
+
+  addProductForm.reset();
+  productOrderId++; // Increment the product order ID
+});
+
+// Edit functions
+          let currentEditVendor;
+          let currentEditProduct;
+          let currentEditOrder;
+      
+          function editVendor(vendorName, productName, price) {
+            const vendor = vendorsData.find(function(vendor) {
+              return vendor.vendorName === vendorName && vendor.productName === productName;
+            });
+            if (vendor) {
+              currentEditVendor = vendor;
+              document.getElementById('vendor-name').value = vendor.vendorName;
+              document.getElementById('product-name').value = vendor.productName;
+              document.getElementById('vendor-price').value = vendor.price;
+            }
+          }
+      
+          function editProduct(productName, vendorName, price) {
+            const product = productsData.find(function(product) {
+              return product.productName === productName && product.vendorName === vendorName;
+            });
+            if (product) {
+              currentEditProduct = product;
+              document.getElementById('product-namee').value = product.productName;
+              document.getElementById('vendor-namee').value = product.vendorName;
+              document.getElementById('product-price').value = product.price;
+            }
+          }
+      
+          function editOrder(orderId) {
+            const order = ordersData.find(function(order) {
+              return order.orderId === orderId;
+            });
+            if (order) {
+              currentEditOrder = order;
+              alert(`Edit order: ${orderId}`);
+            }
+          }
+      
+          // Edit submission handlers
+          addVendorForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (currentEditVendor) {
+              const newVendorName = document.getElementById('vendor-name').value;
+              const newProductName = document.getElementById('product-name').value;
+              const newPrice = document.getElementById('vendor-price').value;
+      
+              // Update vendorsData with edited values
+              vendorsData.forEach(function(vendor) {
+                if (vendor.vendorName === currentEditVendor.vendorName && vendor.productName === currentEditVendor.productName) {
+                  vendor.vendorName = newVendorName;
+                  vendor.productName = newProductName;
+                  vendor.price = newPrice;
+                }
+              });
+      
+              // Repopulate vendor table
+              populateVendorTable();
+              addVendorForm.reset();
+              currentEditVendor = null;
+              populateOrderTableWithNewData();
+            }
+          });
+      
+          addProductForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            if (currentEditProduct) {
+              const newProductName = document.getElementById('product-namee').value;
+              const newVendorName = document.getElementById('vendor-namee').value;
+              const newPrice = document.getElementById('product-price').value;
+      
+              // Update productsData with edited values
+              productsData.forEach(function(product) {
+                if (product.productName === currentEditProduct.productName && product.vendorName === currentEditProduct.vendorName) {
+                  product.productName = newProductName;
+                  product.vendorName = newVendorName;
+                  product.price = newPrice;
+                }
+              });
+      
+              // Repopulate product table
+              populateProductTable();
+              addProductForm.reset();
+              currentEditProduct = null;
+              populateOrderTableWithNewData();
+            }
+          });
+      
+          // Initial population of tables
+          populateVendorTable();
+          populateProductTable();
+          populateOrderTable();
+        });
+
+        backButton.addEventListener('click', function() {
+                window.location.href = 'index1.html';
+            });
+
+            function performSearch() {
+    // Get the value from the search input
+    var searchQuery = document.getElementById('search').value;
+
+    // Example: Redirect to a search results page
+    if (searchQuery.trim() !== '') {
+        window.location.href = 'search-results.html?q=' + encodeURIComponent(searchQuery);
+    } else {
+        alert('Please enter a search term.');
+    }
+}
+
+      </script>
+
+
+</body>
+
+</footer><footer class="background">
+    <p class="text-footer">Copyright 2024 Vendor Management System</p>
+</footer>
+</html>

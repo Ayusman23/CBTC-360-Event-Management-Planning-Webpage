@@ -1,0 +1,204 @@
+/* Global styles */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fcfcfc;
+    background-image: url('bg-1.jpg');
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Ensure the background image does not repeat */
+    background-attachment: fixed; /* Fixed background position (optional) */
+    color: #fcfdfb;
+}
+
+.img-fluid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the entire viewport */
+    z-index: -1; /* Places the image behind other content */
+}
+
+
+/* Updated navbar styles */
+.navbar {
+    background-color: #edf0f3;
+    padding: 10px 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navbar ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.navbar ul li a {
+    color: #1a0101;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.navbar ul li a:hover {
+    background-color: #ebeff3;
+}
+/* Drop down button*/
+/* Drop down button */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-left: 10px; /* Adjust margin as needed */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6fafa;
+    min-width: 160px;
+    z-index: 1;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 0; /* Align dropdown to the right */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+.header {
+    background-color: #230202;
+    color: #ffffff;
+    text-align: center;
+    padding: 1em 0;
+    background-image: url(h-1.jpg);
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-size: cover; /* Ensures the image covers the entire element */
+}
+
+.container {
+    /* max-width: 800px; */
+    /* margin: 20px auto; */
+    padding: 20px;
+    background-color: #f9f4f4;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    background-image: url(one.jpg);
+    /* background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; */
+}
+
+h1 {
+    color: #f6f0f0;
+}
+h2 {
+    color: #f8fafa;
+}
+h3 {
+    color: #70f602;
+}
+
+p {
+    line-height: 1.6;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+.con h2 {
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:Georgia, serif;
+    text-align: center;
+}
+
+@keyframes revealText {
+    0% {
+        opacity: 0; /* Start with full transparency */
+        transform: translateY(20px); /* Optional: Start slightly below its position */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Optional: Return to original position */
+    }
+}
+
+
+/* styles1.css */
+
+/* Footer Styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.footer-links li:last-child {
+    margin-right: 0;
+}
+
+.footer-links li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-links li a:hover {
+    text-decoration: underline;
+}
+

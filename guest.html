@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Scheduling - EventPlanner360</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+            background-image: url('15.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+        }
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header h1 {
+    color: #fcf9f9;
+    margin-bottom: 10px;
+    font-size: 60px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header p {
+    color: #f8faf8;
+    font-size: 20px;
+}
+
+
+@keyframes revealText {
+    0% {
+        opacity: 0; /* Start with full transparency */
+        transform: translateY(20px); /* Optional: Start slightly below its position */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Optional: Return to original position */
+    }
+}
+
+
+#guestListSection {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color:transparent; /* Transparent background with opacity */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    max-width: 80%; /* Adjust the maximum width as needed */
+    margin: auto; /* Center horizontally */
+    overflow: hidden; /* Ensure no overflow issues */
+}
+
+
+
+
+#guestListSection h2 {
+    color: #f4f3f3; /* Dark text color */
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    text-align: center; /* Center align heading */
+}
+
+/* Form Styles */
+#guestListForm {
+    max-width: 500px;
+    margin: auto;
+}
+
+#guestListForm label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #f8f6f6; /* Medium dark text color */
+}
+
+#guestListForm input[type="text"],
+#guestListForm input[type="email"],
+#guestListForm select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+#guestListForm select {
+    appearance: none; /* Remove default arrow in select */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23555555" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom arrow icon */
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 16px;
+    padding-right: 30px; /* Space for icon */
+    cursor: pointer;
+}
+
+#guestListForm textarea {
+    resize: vertical; /* Allow vertical resizing of textarea */
+}
+
+#guestListForm button {
+    padding: 12px 24px; /* Larger padding for button */
+    background-color: #4CAF50; /* Green button background */
+    color: #ffffff; /* White text color */
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+#guestListForm button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Message Container Styles */
+#guestListMessage {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #d4edda; /* Light green background for success message */
+    color: #155724; /* Dark green text color */
+    border: 1px solid #c3e6cb; /* Light green border */
+    border-radius: 5px;
+    text-align: center; /* Center align text */
+}
+
+/* CSS for Back Button */
+.back-button {
+    background-color: #007bff; /* Primary blue background */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: #ffffff; /* White text on hover */
+}
+
+.back-button:focus {
+    outline: none;
+}
+
+.back-button:active {
+    transform: translateY(1px); /* Add a slight downward movement on click */
+}
+
+#guestListDisplay {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+#guestListDisplay h2 {
+    color: #120101;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#guestList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#guestList li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+#guestList li strong {
+    font-weight: bold;
+    color: #333;
+}
+
+#guestList li span {
+    color: #666;
+}
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Guest List Management</h1>
+        <!-- Optionally, you can keep the header consistent across all pages -->
+        <p>An all-in-one event management platform enabling users to schedule events efficiently.</p>
+    </header>
+
+    <!-- Your Guest List Management content from index.html -->
+    <section id="guestListSection">
+        <h2>Guest List Management</h2>
+        <form id="guestListForm">
+            <label for="guestName">Guest Name:</label>
+            <input type="text" id="guestName" name="guestName" required>
+            <label for="guestEmail">Guest Email:</label>
+            <input type="email" id="guestEmail" name="guestEmail" required>
+            <label for="guestRSVP">RSVP Status:</label>
+            <select id="guestRSVP" name="guestRSVP" required>
+                <option value="">Select RSVP Status</option>
+                <option value="attending">Attending</option>
+                <option value="notattending">Not Attending</option>
+                <option value="pending">Pending</option>
+            </select>
+            <button type="submit" class="button">Update Guest</button>
+        </form>
+        <div id="guestListMessage"></div>
+        <button id="backButton" class="button back-button">← Back to Home</button>
+    </section>
+
+    <section id="guestListDisplay">
+        <h2>Guest List</h2>
+        <ul id="guestList"></ul>
+    </section>
+    
+    <!-- Include scripts if necessary -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('guestListForm');
+    const messageContainer = document.getElementById('guestListMessage');
+    const guestListContainer = document.getElementById('guestList');
+    const backButton = document.getElementById('backButton');
+    const guestListSection = document.getElementById('guestListSection');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Reset previous messages
+        messageContainer.innerHTML = '';
+
+        // Fetch form data
+        const formData = new FormData(form);
+
+        // Validate form fields
+        const guestName = formData.get('guestName').trim();
+        const guestEmail = formData.get('guestEmail').trim();
+        const guestRSVP = formData.get('guestRSVP');
+
+        if (!guestName || !guestEmail || !guestRSVP) {
+            // If any of the fields are empty, show an error message
+            messageContainer.innerHTML = '<p>Please fill out all fields.</p>';
+            return; // Stop further execution
+        }
+
+        // Simulate guest update (replace with actual backend API call if needed)
+        // For demonstration purposes, we'll just display a success message
+        messageContainer.innerHTML = '<p>Guest updated successfully!</p>';
+
+        // Display the guest in the guest list
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<strong>${guestName}</strong> - <span>${guestEmail}</span> - RSVP: <span>${guestRSVP}</span>`;
+        guestListContainer.appendChild(listItem);
+
+        // Smooth scroll to the guest list section
+        guestListSection.scrollIntoView({ behavior: 'smooth' });
+
+        // Optionally, you can clear the form after successful submission
+        form.reset();
+    });
+
+    // Back button functionality
+    backButton.addEventListener('click', function() {
+        window.location.href = 'index1.html'; // Navigate to index.html
+    });
+});
+
+
+
+    </script>
+</body>
+</html>

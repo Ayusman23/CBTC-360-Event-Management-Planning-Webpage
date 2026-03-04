@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Scheduling - EventPlanner360</title>
+    <style>
+ body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #0c0000;
+            background-image: url('12.jpg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the background image */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header h1 {
+    color: #000007;
+    margin-bottom: 10px;
+    font-size: 60px;
+    opacity: 0; /* Initially hide the text */
+    animation: revealText 2s forwards; /* Use 'forwards' to keep the last keyframe state */
+    font-size: 100px !important;
+    font-family:initial;
+    text-align: center;
+}
+
+.header p {
+    color: #100400;
+    font-size: 30px;
+}
+
+
+@keyframes revealText {
+    0% {
+        opacity: 0; /* Start with full transparency */
+        transform: translateY(20px); /* Optional: Start slightly below its position */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Optional: Return to original position */
+    }
+}
+
+        /* Section Styles */
+        section {
+            max-width: 600px;
+    margin: 20px auto;
+    background-color: rgb(240, 233, 233);
+    font-size: 20px;
+    color: #ededf1;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(4, 205, 241, 0.1);
+        }
+
+        section h2 {
+            color: #011313;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        section p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #000808;
+        }
+
+        /* Form Styles */
+        form {
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #011a1a;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background-color: #067cf3;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #1a252f;
+        }
+
+        /* Message Box Styles */
+        #personalizedPagesMessage {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #eff4eb;
+            color: #333;
+        }
+
+        #createdPages {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: transparent; /* Background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+}
+
+.personalized-page {
+    margin-bottom: 20px; /* Space between individual pages */
+    padding: 15px;
+    background-color: #170101; /* Background color of each page */
+    border: 1px solid #ddd; /* Border around each page */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Drop shadow for depth */
+}
+
+.personalized-page h2 {
+    font-size: 1.5em; /* Page title font size */
+    color: #fffdfd; /* Page title color */
+    margin-bottom: 10px; /* Space below title */
+}
+
+.personalized-page p {
+    font-size: 1.1em; /* Content font size */
+    line-height: 1.6; /* Line height for readability */
+    color: #f7f2f2; /* Content color */
+}
+
+
+        /* CSS for Back Button */
+        .back-button {
+            background-color: #007bff; /* Primary blue background */
+            color: #ffffff; /* White text */
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            color: #ffffff; /* White text on hover */
+        }
+
+        .back-button:focus {
+            outline: none;
+        }
+
+        .back-button:active {
+            transform: translateY(1px); /* Add a slight downward movement on click */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Personalized Event Pages</h1>
+        <p>An all-in-one event management platform enabling users to schedule events efficiently.</p>
+    </header>
+
+    <!-- Your Personalized Event Pages content -->
+    <section id="personalizedPages">
+        <h2>Personalized Event Pages</h2>
+        <p>Create and manage personalized event pages tailored to each event's theme and details.</p>
+        <form id="personalizedPagesForm">
+            <label for="pageTitle">Page Title:</label>
+            <input type="text" id="pageTitle" name="pageTitle" required>
+            <label for="pageContent">Page Content:</label>
+            <textarea id="pageContent" name="pageContent" rows="4" required></textarea>
+            <button type="submit" class="button">Create Page</button>
+        </form>
+        <div id="personalizedPagesMessage"></div>
+        <button id="backButton" class="back-button" onclick="goBack()">← Back to Home</button>
+
+        <div id="createdPages"></div>
+    </section>
+
+    <!-- Include scripts if necessary -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // JavaScript function to handle back button click
+            function goBack() {
+                window.location.href = 'index1.html';
+            }
+    
+            // Attach click event listener to the back button
+            let backButton = document.getElementById('backButton');
+            if (backButton) {
+                backButton.addEventListener('click', function() {
+                    goBack();
+                });
+            }
+    
+            // JavaScript for handling form submission and displaying messages
+            document.getElementById('personalizedPagesForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting
+    
+                // Validate the form
+                let pageTitle = document.getElementById('pageTitle').value.trim();
+                let pageContent = document.getElementById('pageContent').value.trim();
+    
+                if (pageTitle === '' || pageContent === '') {
+                    displayMessage('Please fill out all fields.', 'error');
+                    return;
+                }
+    
+                // Create a new personalized event page element
+                let newPage = document.createElement('div');
+                newPage.classList.add('personalized-page');
+                newPage.innerHTML = `
+                    <h2>Title: ${pageTitle}</h2>
+                    <p>Content: ${pageContent}</p>
+                `;
+    
+                // Append the new page to the container
+                let createdPages = document.getElementById('createdPages');
+                createdPages.appendChild(newPage);
+    
+                // Display success message
+                displayMessage('Page created successfully!', 'success');
+    
+                // Clear the form fields after successful submission
+                document.getElementById('pageTitle').value = '';
+                document.getElementById('pageContent').value = '';
+            });
+    
+            function displayMessage(message, type) {
+                let messageBox = document.getElementById('personalizedPagesMessage');
+                messageBox.textContent = message;
+    
+                if (type === 'error') {
+                    messageBox.style.backgroundColor = '#f8d7da';
+                    messageBox.style.borderColor = '#f5c6cb';
+                    messageBox.style.color = '#721c24';
+                } else if (type === 'success') {
+                    messageBox.style.backgroundColor = '#c3e6cb';
+                    messageBox.style.borderColor = '#155724';
+                    messageBox.style.color = '#155724'; // Fixed color setting
+                }
+    
+                messageBox.style.display = 'block';
+    
+                // Hide the message box after 5 seconds (optional)
+                setTimeout(function() {
+                    messageBox.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+    
+    
+    
+    
+</body>
+</html>
