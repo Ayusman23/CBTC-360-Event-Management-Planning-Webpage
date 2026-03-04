@@ -176,7 +176,7 @@ Experience a modern, glassmorphic landing page designed for seamless navigation 
 
 | Home Page | Services & Features |
 | :---: | :---: |
-| ![Landing Page](output/landing.jpg) | ![Services](./frontend/assets/features.png) |
+| ![Landing Page](output/landing.png) | ![Services](output/features.png) |
 
 ---
 
@@ -185,14 +185,14 @@ Vibrant, responsive Login and Signup interfaces featuring JWT-based protection a
 
 | Welcome Back | Create Account |
 | :---: | :---: |
-| ![Login](./frontend/assets/login.png) | ![Signup](./frontend/assets/signup.jpg) |
+| ![Login](output/login.png) | ![Signup](output/signup.png) |
 
 ---
 
 ### 3. Personal Dashboard & Analytics
 A centralized hub for real-time metrics, upcoming event tracking, and automated notifications.
 
-![User Dashboard](./frontend/assets/user%20dashboard.png)
+![User Dashboard](output/user%20dashboard.png)
 
 ---
 
@@ -201,11 +201,11 @@ Effortlessly organize events and manage your data with our intuitive tools.
 
 #### **Smart Event Creation**
 *Detailed forms for scheduling, categorization, and color-coding.*
-![Create Event](./frontend/assets/event%20planner.png)
+![Create Event](output/event%20planner.png)
 
 #### **Advanced Excel Export**
 *One-click data portability for Events, Guest Lists, and RSVP responses.*
-![Export to Excel](./frontend/assets/plan%20export%20to%20xlsx.png)
+![Export to Excel](output/plan%20export%20to%20xlsx.png)
 
 ---
 
